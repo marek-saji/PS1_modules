@@ -1,0 +1,12 @@
+#!/bin/sh
+# User-specific colour (different for root)
+# Script params:
+# - $1: colour for root user
+# - $2: colour for other users
+
+if [ "$EUID" == "0" ]
+then
+    export PS1_user_colour="$1"
+else
+    export PS1_user_colour="$2"
+fi

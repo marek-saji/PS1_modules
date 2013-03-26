@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Load modules
+. ./git_branch
+
+##
+# Print latest tag name from git.
+#
+# Params:
+# - $1: Will be prepended to returned value, if any.
+PS1_git_tag () {
+    TAG="$( PS1_git_tag__get )"
+    test -n "$TAG" && printf "$1($TAG)"
+}
+
+##
+# Get latest tag name from git.
+PS1_git_tag__get () {
+    BRANCH="$( PS1_git_branch__get )"
+    git describe --abbrev=0 --tags --match="$BRANCH*" 2>/dev/null || printf "$BRANCH"
+}

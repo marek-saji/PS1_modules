@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Load modules
+. ./user_colour "$@"
+
+# User name and host printed in user-specific colour
+export PS1_user_and_host="$PS1_user_colour\u@\h"

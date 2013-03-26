@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##
+# Print four last directories from the path,
+# each further from current path with less visible colour.
+#
+# Params:
+# - $1-$4 Four colours for four levels of directory.
+#   These look nice: "\e[1;36m" "\e[1;34m" "\e[0;34m" "\e[1;30m".
+PS1_breadcrumbs () {
+    LEVEL=0
+    CRUMBS=""
+    STACK="$( dirs +0 )"
+    while true
+    do
+        LEVEL=$(( LEVEL + 1 ))
+        case $LEVEL in
+            1) COLOUR="$1" ;;
+            2) COLOUR="$2" ;;
+            3) COLOUR="$3" ;;
+            4) COLOUR="$4" ;;
+            *) break ;;
+        esac
+        CRUMBS="$COLOUR$( basename "$STACK" )${CRUMBS:+/}$CRUMBS" # FIXME
+        STACK="$( dirname "$STACK" )"
+        if [ "/" = "$STACK" ]
+        then
+            CRUMBS="/$CRUMBS"
+            break
+        elif [ "." = "$STACK" ]
+        then
+            break
+        fi
+    done
+    printf "$CRUMBS"
+}

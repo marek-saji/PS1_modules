@@ -1,0 +1,17 @@
+#!/bin/sh
+
+##
+# Print number of background jobs.
+#
+# Params:
+# - $1: Will be prepended to returned value, if any.
+PS1_jobcount () {
+    COUNT=$( jobs | wc -l )
+    if [ x$COUNT == x1 ]
+    then
+        printf "$1($COUNT job)"
+    elif [ x$COUNT != x0 ]
+    then
+        printf "$1(${COUNT} jobs)"
+    fi
+}

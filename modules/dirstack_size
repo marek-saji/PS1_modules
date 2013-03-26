@@ -1,0 +1,16 @@
+#!/bin/sh
+
+##
+# Print number of directories in dir stack (pushd)
+#
+# Params:
+# - $1: Will be prepended to printed value, if any.
+PS1_dirstack_size () {
+    SIZE=${#DIRSTACK[@]}
+    SIZE=$(( SIZE - 1 ))
+    if [ $SIZE -gt 0 ]
+    then
+        printf "$1+$SIZE"
+    fi
+}
+

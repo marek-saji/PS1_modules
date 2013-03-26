@@ -1,0 +1,17 @@
+#!/bin/sh
+
+##
+# Print active git branch name.
+#
+# Params:
+# - $1: Will be prepended to printed value, if any.
+PS1_git_branch () {
+    BRANCH="$( PS1_git_branch__get )"
+    test -n "$BRANCH" && printf "$1($BRANCH)"
+}
+
+##
+# Get active git branch name.
+PS1_git_branch__get () {
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}

@@ -1,0 +1,77 @@
+#!/bin/sh
+
+##
+# Print last executed command's execution time
+#
+# Params:
+# - $1: Will be prepended to last command's execution time
+#       (displayed only if non-zero).
+PS1_lastcmd_time () {
+    TIME="$( PS1_lastcmd_time__get )"
+    if [ -n "$TIME" ]
+    then
+        if [ "UTF-8" = "$( locale charmap )" ]
+        then
+            printf "$1↖ $TIME"
+        else
+            printf "$1took $TIME"
+        fi
+    fi
+}
+
+##
+# Get last executed command's execution time
+#
+# Uses:
+# - $PS1_lastcmd_time__seconds Execution time.
+PS1_lastcmd_time__get () {
+    CMD_SEC="$PS1_lastcmd_time__seconds"
+    if [ -z "$CMD_SEC" ]
+    then
+        printf "\nDid you register debug trap in your PS1 preset?\ntrap \$PS1_debug_trap DEBUG\n."
+    elif [ 0 -ne $CMD_SEC ]
+    then
+        if [ $CMD_SEC -gt 60 ]
+        then
+            # 50% volume
+            paplay --volume=32768 /usr/share/sounds/gnome/default/alerts/glass.ogg & 2>&1 > /dev/null
+        fi
+        CMD_MIN=$(( CMD_SEC / 60 ))
+        CMD_SEC=$(( CMD_SEC - CMD_MIN * 60 ))
+        CMD_HRS=$(( CMD_MIN / 60 ))
+        CMD_MIN=$(( CMD_MIN - CMD_HRS * 60 ))
+        if [ 0 -ne $CMD_HRS ]
+        then
+            printf "%d:%02d:%02d" "$CMD_HRS" "$CMD_MIN" "$CMD_SEC"
+        elif [ 0 -ne $CMD_MIN ]
+        then
+            printf "%d:%02d" "$CMD_MIN" "$CMD_SEC"
+        else
+            printf "%ds" "$CMD_SEC"
+        fi
+    fi
+}
+
+##
+# Stop counting execution time
+#
+# Uses:
+# - $PS1_lastcmd_time__seconds Execution time.
+# - $PS1_lastcmd_time__seconds_start Start of execution.
+PS1_lastcmd_time__stop () {
+    PS1_lastcmd_time__seconds=$(( SECONDS - PS1_lastcmd_time__seconds_start ))
+    unset PS1_lastcmd_time__seconds_start
+}
+
+##
+# Start counting execution time
+#
+# Uses:
+# - $PS1_lastcmd_time__seconds_start Start of execution.
+PS1_lastcmd_time__start () {
+    export PS1_lastcmd_time__seconds_start=${PS1_lastcmd_time__seconds_start:-$SECONDS}
+}
+
+# This variable should be registered as DEBUG grap in the preset file.
+export PS1_debug_trap="PS1_lastcmd_time__start;$PS1_debug_trap"
+export PROMPT_COMMAND="PS1_lastcmd_time__stop;$PROMPT_COMMAND"

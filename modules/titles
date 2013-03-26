@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Load modules
+. ./title
+
+##
+# Set terminals and screen(1) window titles.
+#
+# Uses:
+# - $TERM terminal type
+# - $WINDOW screen(1) window number
+# - $STY screen(1) identifier
+PS1_titles () {
+    # set screen(1) window name
+    if [ "$TERM" == "screen" ]
+    then
+        echo -ne "\ek$( PS1_title )\e\\"
+    fi
+
+    # change the window title of X terminals
+    case ${TERM} in
+        xterm*|rxvt*|Eterm|aterm|kterm|gnome)
+            echo -ne "\033]0;$( PS1_title )\007"
+            ;;
+        screen)
+            SCREEN_NAME="$( echo $STY | cut -d. -f2- )"
+            echo -ne "\033_${SCREEN_NAME}($WINDOW) - $( PS1_title )\033\\"
+            ;;
+    esac
+}
+
+export PS1_debug_trap="PS1_titles;$PS1_debug_trap"

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Load modules
+. ./lastcmd_time
+. ./lastcmd_status
+
+##
+# Print info about last executed command.
+#
+# Params:
+# - $1: Will be prepended to returned value, if any.
+# - $2: Will be prepended to last command's return code
+#       (displayed only if non-zero).
+PS1_lastcmd () {
+    TIME="$( PS1_lastcmd_time__get )"
+    STATUS="$( PS1_lastcmd_status__get )"
+
+    if [ -n "$TIME" ] || [ -n "$STATUS" ]
+    then
+        if [ "UTF-8" = "$( locale charmap )" ]
+        then
+            printf "$1↖"
+        else
+            printf "$1^"
+        fi
+    fi
+    test -n "$TIME"   && printf " $TIME"
+    test -n "$STATUS" && printf " $2$STATUS"
+}

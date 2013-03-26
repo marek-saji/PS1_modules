@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Load modules
+. ./breadcrumbs
+
+##
+# Print text suitable for terminal/screen(1) window title
+#
+# Uses:
+# - $BASH_COMMAND
+# - $SSH_CONNECTION
+# - $SUDO_USER
+# - $USER
+# - $HOSTNAME
+PS1_title ()
+{
+    if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ]
+    then
+        echo "$BASH_COMMAND"
+    else
+        if [ -n "$SSH_CONNECTION" ]
+        then
+            printf "$USER@$HOSTNAME"
+        elif [ -n "$SUDO_USER" ]
+        then
+            printf "$USER"
+        fi
+        printf :
+        PS1_breadcrumbs
+    fi
+}
