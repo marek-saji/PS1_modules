@@ -9,6 +9,8 @@
 #
 # ~/foo/bar/zar+2 (zar-1.0) (vim subshell) user@hostname 13:37 ↖ 1s 1
 # $
+#
+# screenshot: http://i.imgur.com/d6W5mwO.png
 ##
 
 # Have to change directory to `modules/`, as modules depend on
