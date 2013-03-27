@@ -3,9 +3,10 @@ Modular bash prompt
 
 Usage
 -----
-Checkout in `~/.bash/PS1/` and add this to your `~/.bashrc`:
+Checkout wherever (`~/.bash/PS1/` is a good choice) and add this
+to your `~/.bashrc`:
 
-    . ~/.bash/PS1/presets/saji
+    . WHEREVER/presets/saji
 
 
 Modules and presets

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # (c) Marek `saji' Augustynowicz
 
 ##
@@ -15,7 +15,7 @@
 
 # Have to change directory to `modules/`, as modules depend on
 # that when loading other modules.
-cd ~/.bash/PS1/modules
+cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./breadcrumbs
 . ./dirstack_size
 . ./git_tag
