@@ -13,5 +13,5 @@ PS1_git_branch () {
 ##
 # Get active git branch name.
 PS1_git_branch__get () {
-    git rev-parse --abbrev-ref HEAD 2>/dev/null
+    command git rev-parse --abbrev-ref HEAD 2>/dev/null
 }

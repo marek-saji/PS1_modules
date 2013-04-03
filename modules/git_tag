@@ -17,5 +17,5 @@ PS1_git_tag () {
 # Get latest tag name from git.
 PS1_git_tag__get () {
     BRANCH="$( PS1_git_branch__get )"
-    git describe --abbrev=0 --tags --match="$BRANCH*" 2>/dev/null || printf "$BRANCH"
+    command git describe --abbrev=0 --tags --match="$BRANCH*" 2>/dev/null || printf "$BRANCH"
 }
