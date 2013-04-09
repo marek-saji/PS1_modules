@@ -1,0 +1,27 @@
+#!/bin/bash
+# (c) Marek `saji' Augustynowicz
+
+##
+# {GIT_TAG}{GIT_STASH_COUNT} {SYSTEM DEFAULT PROMPT}
+#
+# It may look like this:
+#
+# (zar-1.0)+3 ~/src/foo $
+##
+
+# Have to change directory to `modules/`, as modules depend on
+# that when loading other modules.
+cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
+. ./git_tag
+. ./git_stash
+cd - >/dev/null
+
+export PS1='$(
+    # current git tag (or branch name, if tag does not exist)
+    #             blue
+    PS1_git_tag "\e[0;34m"
+)$(
+    # number of git-stashed changes
+    #             bold black
+    PS1_git_stash "\e[1;30m+"
+)\e[0m '"$PS1"
