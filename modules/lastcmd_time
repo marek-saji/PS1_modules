@@ -74,4 +74,8 @@ PS1_lastcmd_time__start () {
 
 # This variable should be registered as DEBUG grap in the preset file.
 export PS1_debug_trap="PS1_lastcmd_time__start;$PS1_debug_trap"
-export PROMPT_COMMAND="PS1_lastcmd_time__stop;$PROMPT_COMMAND"
+if [ -z "$PS1_lastcmd_time__initialized" ]
+then
+    export PROMPT_COMMAND="PS1_lastcmd_time__stop;$PROMPT_COMMAND"
+    export PS1_lastcmd_time__initialized=1
+fi
