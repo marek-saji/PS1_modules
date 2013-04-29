@@ -18,7 +18,7 @@
 cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./breadcrumbs
 . ./dirstack_size
-. ./git_tag
+. ./git_branch
 . ./git_stash
 . ./lastcmd
 . ./subshell_vim
@@ -37,9 +37,9 @@ export PS1='$(
     #                 bold black
     PS1_dirstack_size "\e[1;30m"
 )$(
-    # current git tag (or branch name, if tag does not exist)
+    # current git branch name
     #             blue
-    PS1_git_tag " \e[0;34m"
+    PS1_git_branch " \e[0;34m"
 )$(
     # number of git-stashed changes
     #             bold black
