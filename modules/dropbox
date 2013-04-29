@@ -1,0 +1,19 @@
+#!/bin/sh
+
+##
+# Print whether dropbox is idle
+#
+# Params:
+# - $1: Will be printed if dropbox is not idle
+# - $2: Will be printed if dropbox is idle
+PS1_dropbox () {
+    status="$( command dropbox filestatus . )"
+    if [ ".: syncing" = "$status" ]
+    then
+        echo "$1"
+    elif [ ".: up to date" = "$status" ]
+    then
+        echo "$2"
+    fi
+}
+
