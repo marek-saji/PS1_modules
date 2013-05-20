@@ -1,0 +1,26 @@
+#!/bin/sh
+
+. ./git_stash
+
+##
+# Print git counters
+#
+# Source: http://stackoverflow.com/a/13172299
+#
+# Params:
+# - $1: Will be prepended to "stash" counter, if any
+# - $2: Will be prepended to "behind" counter, if any
+# - $3: Will be prepended to "ahead" counter, if any
+PS1_git_counters () {
+    PS1_git_stash "$1"
+
+    BEHIND_COLOUR="$2"
+    AHEAD_COLOUR="$3"
+
+    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD))
+    set -- $(command git rev-list --left-right --count $TACKING_BRANCH...HEAD)
+    BEHIND="$1"
+    AHEAD="$2"
+    test -n "$BEHIND" && test 0 -ne "$BEHIND" && printf "${BEHIND_COLOUR}${BEHIND}"
+    test -n "$AHEAD"  && test 0 -ne "$AHEAD"  && printf "${AHEAD_COLOUR}${AHEAD}"
+}
