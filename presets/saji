@@ -47,12 +47,12 @@ export PS1='$(
     PS1_git_branch " \e[0;34m"
 )$(
     # git counters:  stashed,    behind,     ahead
-    #                blond black blue        bold blue
+    #                bold black, blue,       bold blue
     PS1_git_counters "\e[1;30m+" "\e[0;34m⊝" "\e[1;34m⊕"
 )$(
-    # git status
-    #                blond black
-    PS1_git_status "\e[0;36m"
+    # git status:  staging,    working copy
+    #              bold cyan, cyan
+    PS1_git_status "\e[1;36m" "\e[0;36m"
 )$(
     # indicator whether we are in a vim subshell
     #                 bold black
