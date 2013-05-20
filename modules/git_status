@@ -1,0 +1,11 @@
+#!/bin/sh
+
+##
+# Print git status
+#
+# Params:
+# - $1: Will be prepended to returned value, if any.
+PS1_git_status () {
+    STATUS="$( command git status --porcelain | cut -b1-2 | sort | uniq | xargs printf "%s" )"
+    test -n "$STATUS" && printf "$1$STATUS"
+}
