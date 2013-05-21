@@ -17,8 +17,14 @@ PS1_git_counters () {
     BEHIND_COLOUR="$2"
     AHEAD_COLOUR="$3"
 
-    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD))
-    set -- $(command git rev-list --left-right --count $TRACKING_BRANCH...HEAD)
+    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD 2>/dev/null) 2>/dev/null )
+    if [ -z "$TRACKING_BRANCH" ]
+    then
+        printf ""
+        return
+    fi
+
+    set -- $(command git rev-list --left-right --count ${TRACKING_BRANCH}...HEAD)
     BEHIND="$1"
     AHEAD="$2"
     test -n "$BEHIND" && test 0 -ne "$BEHIND" && printf "${BEHIND_COLOUR}${BEHIND}"

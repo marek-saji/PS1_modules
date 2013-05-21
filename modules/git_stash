@@ -13,6 +13,6 @@ PS1_git_stash () {
 ##
 # Get number of stashed changes.
 PS1_git_stash__get () {
-    command git stash list | wc -l
+    command git stash list 2>/dev/null | wc -l
 }
 
