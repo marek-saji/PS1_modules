@@ -1,0 +1,23 @@
+#!/bin/sh
+
+##
+# Print rebase indicator
+#
+# Params:
+# - $1: Will be printed if rebase is in progress
+# - $2: Will be printed if no rebase is in progress
+PS1_git_rebase () {
+    if ( PS1_git_rebase__get )
+    then
+        echo "$1"
+    else
+        echo "$2"
+    fi
+}
+
+##
+# Get whether rebase is in progress
+PS1_git_rebase__get () {
+    test -d "$( command git rev-parse --git-dir )/rebase-merge" && return 0 || return 1
+}
+

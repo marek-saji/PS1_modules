@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./git_rebase
+
 ##
 # Print active git branch name.
 #
@@ -7,7 +9,37 @@
 # - $1: Will be prepended to printed value, if any.
 PS1_git_branch () {
     BRANCH="$( PS1_git_branch__get )"
-    test -n "$BRANCH" && printf "$1($BRANCH)"
+    LABEL="$BRANCH"
+
+    if [ -n "$LABEL" ]
+    then
+        if ( PS1_git_rebase__get )
+        then
+            if [ "HEAD" = "$LABEL" ]
+            then
+                LABEL="(rebasing)"
+            else
+                LABEL="$LABEL (rebasing)"
+            fi
+        fi
+    fi
+
+    if [ -n "$LABEL" ]
+    then
+        if ( command git config --get alias.grows-from > /dev/null )
+        then
+            GROWS_FROM="$( command git grows-from )"
+            if [ -n "$GROWS_FROM" ] && [ "$BRANCH" != "$GROWS_FROM" ]
+            then
+                LABEL="$LABEL ~ $GROWS_FROM"
+            fi
+        fi
+    fi
+
+    if [ -n "$LABEL" ]
+    then
+        printf "$1($LABEL)"
+    fi
 }
 
 ##
