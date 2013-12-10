@@ -1,0 +1,23 @@
+#!/bin/sh
+
+##
+# Print merge indicator
+#
+# Params:
+# - $1: Will be printed if merge is in progress
+# - $2: Will be printed if no merge is in progress
+PS1_git_merge () {
+    if ( PS1_git_merge__get )
+    then
+        echo "$1"
+    else
+        echo "$2"
+    fi
+}
+
+##
+# Get whether merge is in progress
+PS1_git_merge__get () {
+    test -d "$( command git rev-parse --git-dir )/MERGE_HEAD" && return 0 || return 1
+}
+

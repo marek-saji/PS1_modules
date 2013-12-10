@@ -1,6 +1,7 @@
 #!/bin/sh
 
 . ./git_rebase
+. ./git_merge
 
 ##
 # Print active git branch name.
@@ -20,6 +21,19 @@ PS1_git_branch () {
                 LABEL="(rebasing)"
             else
                 LABEL="$LABEL (rebasing)"
+            fi
+        fi
+    fi
+
+    if [ -n "$LABEL" ]
+    then
+        if ( PS1_git_merge__get )
+        then
+            if [ "HEAD" = "$LABEL" ]
+            then
+                LABEL="(merging)"
+            else
+                LABEL="$LABEL (merging)"
             fi
         fi
     fi
