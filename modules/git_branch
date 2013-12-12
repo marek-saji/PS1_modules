@@ -9,40 +9,14 @@
 # Params:
 # - $1: Will be prepended to printed value, if any.
 PS1_git_branch () {
-    BRANCH="$( PS1_git_branch__get )"
-    LABEL="$BRANCH"
-
-    if [ -n "$LABEL" ]
-    then
-        if ( PS1_git_rebase__get )
-        then
-            if [ "HEAD" = "$LABEL" ]
-            then
-                LABEL="(rebasing)"
-            else
-                LABEL="$LABEL (rebasing)"
-            fi
-        fi
-    fi
-
-    if [ -n "$LABEL" ]
-    then
-        if ( PS1_git_merge__get )
-        then
-            if [ "HEAD" = "$LABEL" ]
-            then
-                LABEL="(merging)"
-            else
-                LABEL="$LABEL (merging)"
-            fi
-        fi
-    fi
+    LABEL="$( PS1_git_branch__get_label )"
 
     if [ -n "$LABEL" ]
     then
         if ( command git config --get alias.grows-from > /dev/null )
         then
-            GROWS_FROM="$( command git grows-from )"
+            BRANCH="$( PS1_git_branch__get )"
+            GROWS_FROM="$( command git grows-from "$BRANCH" )"
             if [ -n "$GROWS_FROM" ] && [ "$BRANCH" != "$GROWS_FROM" ]
             then
                 LABEL="$LABEL ~ $GROWS_FROM"
@@ -60,4 +34,10 @@ PS1_git_branch () {
 # Get active git branch name.
 PS1_git_branch__get () {
     command git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+##
+# Get active git branch human readable name.
+PS1_git_branch__get_label () {
+    command git branch | grep '^\*' | cut -b3- 2>/dev/null
 }
