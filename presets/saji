@@ -64,9 +64,8 @@ export PS1='$(
     #             bold black, bold red
     PS1_lastcmd " \e[1;30m" "\e[0;31m"
     # command prompt in user-specific colour (red for root)
-)'"$PS1_user_colour"'\n$\e[0m '
+)\e[0m\n$ '
 # these variables are no longer needed
-unset PS1_user_colour
 unset PS1_user_and_host
 
 trap $PS1_debug_trap DEBUG
