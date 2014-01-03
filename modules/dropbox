@@ -10,10 +10,10 @@ PS1_dropbox () {
     status="$( command dropbox filestatus . )"
     if [ ".: syncing" = "$status" ]
     then
-        echo "$1"
+        echo -n "$1"
     elif [ ".: up to date" = "$status" ]
     then
-        echo "$2"
+        echo -n "$2"
     fi
 }
 
