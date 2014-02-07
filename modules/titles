@@ -11,20 +11,28 @@
 # - $WINDOW screen(1) window number
 # - $STY screen(1) identifier
 PS1_titles () {
+    TITLE="$( PS1_title )"
     # set screen(1) window name
     if [ "$TERM" == "screen" ]
     then
-        echo -ne "\ek$( PS1_title )\e\\"
+        echo -ne "\ek${TITLE}\e\\"
     fi
 
     # change the window title of X terminals
     case ${TERM} in
         xterm*|rxvt*|Eterm|aterm|kterm|gnome)
-            echo -ne "\033]0;$( PS1_title )\007"
+            echo -ne "\033]0;${TITLE}\007"
             ;;
         screen)
             SCREEN_NAME="$( echo $STY | cut -d. -f2- )"
-            echo -ne "\033_${SCREEN_NAME}($WINDOW) - $( PS1_title )\033\\"
+            [ -n "${WINDOW}" ] && SCREEN_NAME="${SCREEN_NAME}(${WINDOW})"
+            if [ -n "${SCREEN_NAME}" ]
+            then
+                SCREEN_TITLE="${SCREEN_NAME} - ${SCREEN_TITLE}"
+            else
+                SCREEN_TITLE="${TITLE}"
+            fi
+            echo -ne "\033_${TITLE}\033\\"
             ;;
     esac
 }

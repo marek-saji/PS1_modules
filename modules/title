@@ -17,14 +17,25 @@ PS1_title ()
     if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ] && [ "$BASH_COMMAND" != 'kill -STOP $$' ]
     then
         echo "$BASH_COMMAND"
-    else
+
+        if [ -n "$SUDO_USER" ]
+        then
+            echo " as $USER"
+        fi
         if [ -n "$SSH_CONNECTION" ]
         then
-            printf "$USER@$HOSTNAME"
-        elif [ -n "$SUDO_USER" ]
+            printf "@$HOSTNAME"
+        fi
+    else
+        if [ -n "$SUDO_USER" ]
         then
             printf "$USER"
         fi
+        if [ -n "$SSH_CONNECTION" ]
+        then
+            printf "@$HOSTNAME"
+        fi
+
         printf :
         PS1_breadcrumbs
     fi
