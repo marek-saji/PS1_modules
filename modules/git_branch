@@ -39,5 +39,5 @@ PS1_git_branch__get () {
 ##
 # Get active git branch human readable name.
 PS1_git_branch__get_label () {
-    command git branch 2>/dev/null | grep '^\*' | cut -b3-
+    command git branch 2>/dev/null | GREP_OPTIONS= grep '^\*' | cut -b3-
 }
