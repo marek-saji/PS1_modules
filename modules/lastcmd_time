@@ -34,7 +34,12 @@ PS1_lastcmd_time__get () {
         if [ $CMD_SEC -gt 60 ]
         then
             # 50% volume
-            paplay --volume=32768 /usr/share/sounds/gnome/default/alerts/glass.ogg & 2>&1 > /dev/null
+            PLAY="paplay --volume=32768"
+            SOUND=/usr/share/sounds/gnome/default/alerts/glass.ogg
+            if ( which $PLAY >/dev/null) && [ -e $SOUND ]
+            then
+                $PLAY $SOUND & 2>&1 > /dev/null
+            fi
         fi
         CMD_MIN=$(( CMD_SEC / 60 ))
         CMD_SEC=$(( CMD_SEC - CMD_MIN * 60 ))
