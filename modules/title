@@ -14,7 +14,7 @@
 # - $HOSTNAME
 PS1_title ()
 {
-    if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ]
+    if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ] && [ "$BASH_COMMAND" != 'kill -STOP $$' ]
     then
         echo "$BASH_COMMAND"
     else

@@ -74,7 +74,13 @@ PS1_lastcmd_time__stop () {
 # Uses:
 # - $PS1_lastcmd_time__seconds_start Start of execution.
 PS1_lastcmd_time__start () {
-    export PS1_lastcmd_time__seconds_start=${PS1_lastcmd_time__seconds_start:-$SECONDS}
+    if ( type _mc >/dev/null 2>&1 )
+    then
+        export PS1_lastcmd_time__seconds_start=
+        export PS1_lastcmd_time__seconds=0
+    else
+        export PS1_lastcmd_time__seconds_start=${PS1_lastcmd_time__seconds_start:-$SECONDS}
+    fi
 }
 
 # This variable should be registered as DEBUG grap in the preset file.
