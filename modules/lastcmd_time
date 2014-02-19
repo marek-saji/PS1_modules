@@ -64,7 +64,12 @@ PS1_lastcmd_time__get () {
 # - $PS1_lastcmd_time__seconds Execution time.
 # - $PS1_lastcmd_time__seconds_start Start of execution.
 PS1_lastcmd_time__stop () {
-    PS1_lastcmd_time__seconds=$(( SECONDS - PS1_lastcmd_time__seconds_start ))
+    if [ -n "${PS1_lastcmd_time__seconds_start}" ]
+    then
+        PS1_lastcmd_time__seconds=$(( SECONDS - PS1_lastcmd_time__seconds_start ))
+    else
+        PS1_lastcmd_time__seconds=0
+    fi
     unset PS1_lastcmd_time__seconds_start
 }
 
@@ -74,12 +79,9 @@ PS1_lastcmd_time__stop () {
 # Uses:
 # - $PS1_lastcmd_time__seconds_start Start of execution.
 PS1_lastcmd_time__start () {
-    if ( type _mc >/dev/null 2>&1 )
+    if [ -z "${PS1_lastcmd_time__seconds_start}" ]
     then
-        export PS1_lastcmd_time__seconds_start=
-        export PS1_lastcmd_time__seconds=0
-    else
-        export PS1_lastcmd_time__seconds_start=${PS1_lastcmd_time__seconds_start:-$SECONDS}
+        export PS1_lastcmd_time__seconds_start=${SECONDS}
     fi
 }
 
