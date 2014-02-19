@@ -66,7 +66,7 @@ export PS1='$(
     # duration of last executed command and
     # status of last executed command, if different than "0"
     #             bold black, bold red
-    PS1_lastcmd " \e[1;30m" "\e[0;31m"
+    PS1_lastcmd " \e[1;30m" "\e[0;31m‼"
     # command prompt in user-specific colour (red for root)
 )\e[0m\n$ '
 # these variables are no longer needed
