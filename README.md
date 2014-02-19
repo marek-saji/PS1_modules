@@ -3,6 +3,7 @@ Modular bash prompt
 
 Usage
 -----
+
 Checkout wherever (`~/.bash/PS1/` is a good choice) and add this
 to your `~/.bashrc`:
 
@@ -13,9 +14,11 @@ Your new terminals should look like this:
 ![Two-line, comprehend PS1 preset.](presets/saji.png)
 
 
+
 Modules and presets
 -------------------
-See `presets/saji` for an example on how presets can be made.
+
+See [presets/](presets/) for an examples on how presets can be made.
 
 Modules should export variable or function with called
 `PS1_${MODULE_NAME}` and additionally can export more things called
@@ -28,11 +31,14 @@ adding leading space and colour escape sequence.
 See module files for more information on how to use them.
 
 
+
 Contributing
 ------------
-Feel free to for and add new modules and/or presets.
+
+Feel free fork and pull-request new modules and/or presets.
 
 
 License
 -------
-Licensed under MIT. See LICENSE file.
+
+[MIT License](LICENSE).
