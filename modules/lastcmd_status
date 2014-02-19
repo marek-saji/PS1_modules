@@ -40,4 +40,7 @@ PS1_lastcmd_status__save () {
     export PS1_lastcmd_status__status="$?"
 }
 
-export PROMPT_COMMAND="PS1_lastcmd_status__save;$PROMPT_COMMAND"
+if ! ( echo "$PROMPT_COMMAND" | grep -q PS1_lastcmd_status__save )
+then
+    export PROMPT_COMMAND="PS1_lastcmd_status__save;$PROMPT_COMMAND"
+fi
