@@ -7,6 +7,10 @@ Checkout wherever (`~/.bash/PS1/` is a good choice) and add this
 to your `~/.bashrc`:
 
     . WHEREVER/presets/saji
+    
+Your new terminals should look like this:
+
+![Two-line, comprehend PS1 preset.](presets/saji.png)
 
 
 Modules and presets
