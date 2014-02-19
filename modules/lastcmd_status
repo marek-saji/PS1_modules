@@ -40,7 +40,4 @@ PS1_lastcmd_status__save () {
     export PS1_lastcmd_status__status="$?"
 }
 
-# Initialize saved status code
-export PS1_last_status__status=0
-# This variable should be registered as DEBUG grap in the preset file.
-export PS1_debug_trap="PS1_lastcmd_status__save;$PS1_debug_trap"
+export PROMPT_COMMAND="PS1_lastcmd_status__save;$PROMPT_COMMAND"
