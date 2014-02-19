@@ -13,6 +13,8 @@
 # screenshot: http://i.imgur.com/d6W5mwO.png
 ##
 
+PS1_debug_trap=
+
 # Have to change directory to `modules/`, as modules depend on
 # that when loading other modules.
 cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
@@ -70,4 +72,4 @@ export PS1='$(
 # these variables are no longer needed
 unset PS1_user_and_host
 
-trap $PS1_debug_trap DEBUG
+[ -n "$PS1_debug_trap" ] && trap $PS1_debug_trap DEBUG
