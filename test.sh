@@ -19,6 +19,11 @@ PROMPT_COMMAND=
 
 for PRESET in "$BASEDIR"/presets/*
 do
+    if [ "$( file --mime-type "$PRESET" | cut -d: -f2 )" != " text/x-shellscript" ]
+    then
+        continue
+    fi
+
     printf '.'
 
     OUTPUT="$( . "$PRESET" 2>&1 > /dev/null )"
