@@ -29,7 +29,7 @@ PS1_lastcmd_time__get () {
     if [ -z "$CMD_SEC" ]
     then
         printf "\nDid you register debug trap in your PS1 preset?\ntrap \$PS1_debug_trap DEBUG\n."
-    elif [ 0 -ne $CMD_SEC ]
+    elif [ 0 -ne $CMD_SEC ] && [ 0 -lt $CMD_SEC ]
     then
         if [ $CMD_SEC -gt 60 ]
         then
