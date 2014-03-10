@@ -16,6 +16,13 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./git_stash
 cd - >/dev/null
 
+if [ "UTF-8" = "$( locale charmap )" ]
+then
+    PS1_ICON_GIT_STASHED=+
+else
+    PS1_ICON_GIT_STASHED=+
+fi
+
 export PS1='$(
     # current git tag (or branch name, if tag does not exist)
     #             blue
@@ -23,5 +30,5 @@ export PS1='$(
 
     # number of git-stashed changes
     #             bold black
-    PS1_git_stash "\e[1;30m+"
+    PS1_git_stash "\e[1;30m${PS1_ICON_GIT_STASHED}"
 )\e[0m '"$PS1"
