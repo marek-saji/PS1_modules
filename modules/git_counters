@@ -11,22 +11,30 @@
 # - $1: Will be prepended to "stash" counter, if any
 # - $2: Will be prepended to "behind" counter, if any
 # - $3: Will be prepended to "ahead" counter, if any
+# - $4: Will be appended, if any output
 PS1_git_counters () {
-    PS1_git_stash "$1"
+    STASH="$( PS1_git_stash__get )"
+    test "0" = "$STASH" && STASH=
+    test -n "$STASH" && printf "$1$STASH"
 
     BEHIND_COLOUR="$2"
     AHEAD_COLOUR="$3"
+    SUFFIX="$4"
 
     TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD 2>/dev/null) 2>/dev/null )
     if [ -z "$TRACKING_BRANCH" ]
     then
-        printf ""
         return
     fi
+
 
     set -- $(command git rev-list --left-right --count ${TRACKING_BRANCH}...HEAD)
     BEHIND="$1"
     AHEAD="$2"
-    test -n "$BEHIND" && test 0 -ne "$BEHIND" && printf "${BEHIND_COLOUR}${BEHIND}"
-    test -n "$AHEAD"  && test 0 -ne "$AHEAD"  && printf "${AHEAD_COLOUR}${AHEAD}"
+    test 0 -eq "$BEHIND" && BEHIND=
+    test 0 -eq "$AHEAD"  && AHEAD=
+    test -n "$BEHIND" && printf "${BEHIND_COLOUR}${BEHIND}"
+    test -n "$AHEAD"  && printf "${AHEAD_COLOUR}${AHEAD}"
+
+    test -n "$BEHIND" || test -n "$AHEAD" || test -n "$STASH" && printf "${SUFFIX}"
 }
