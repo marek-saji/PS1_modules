@@ -8,8 +8,8 @@
 # - $2: Will be prepended to working copy status, if any
 # - $3: Will be appended, if any output
 PS1_git_status () {
-    STAGING_STATUS="$(     command git status --porcelain 2>/dev/null | cut -b1 | GREP_OPTIONS= grep -v '?' | sort | uniq | xargs printf "%s" )"
-    WORKINGCOPY_STATUS="$( command git status --porcelain 2>/dev/null | cut -b2 | sort | uniq | xargs printf "%s" )"
+    STAGING_STATUS="$(     command git status --porcelain 2>/dev/null | cut -b1 | grep -v '^[[:space:]?]*$' | sort | uniq -c | xargs printf "%s%s" )"
+    WORKINGCOPY_STATUS="$( command git status --porcelain 2>/dev/null | cut -b2 | grep -v '^[[:space:]]*$' | sort | uniq -c | xargs printf "%s%s" )"
     test -n "$STAGING_STATUS"     && printf "$1$STAGING_STATUS"
     test -n "$WORKINGCOPY_STATUS" && printf "$2$WORKINGCOPY_STATUS"
     test -n "$STAGING_STATUS" || test -n "$WORKINGCOPY_STATUS" && printf "$3"
