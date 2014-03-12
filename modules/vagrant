@@ -1,0 +1,24 @@
+#!/bin/sh
+
+##
+# Print whether there are running vagrant boxes
+#
+# Params:
+# - $1: Will be printed if there are running boxes
+# - $2: Will be printed if there are no running boxes
+# - $3: Will be printed if there are not boxes at all
+PS1_vagrant () {
+    if ( which vagrant &>/dev/null )
+    then
+        if ! STATUS=$( command vagrant status 2>/dev/null )
+        then
+            printf "$3"
+        elif [[ "${STATUS}" =~ "running" ]]
+        then
+            printf "$1"
+        else
+            printf "$2"
+        fi
+    fi
+}
+
