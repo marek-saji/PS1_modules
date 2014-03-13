@@ -28,7 +28,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./dropbox
 # host's colour is generated from host name
 HOSTNAME_HASH=$( echo $HOSTNAME | md5sum )
-. ./user_and_host '\e[0;31m' "\e[0;$(( 0x${HOSTNAME_HASH:8:1} / 3 + 31 ))m"
+. ./user_and_host '\e[0;31m' "\e[0;$(( 0x${HOSTNAME_HASH:8:1} * 6 / 16 + 31 ))m"
 unset HOSTNAME_HASH
 # updates screen(1)'s and terminal's titles
 . ./titles
