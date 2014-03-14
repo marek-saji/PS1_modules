@@ -37,12 +37,14 @@ cd - >/dev/null
 
 if [ "UTF-8" = "$( locale charmap )" ]
 then
+    PS1_UTF_SUPPORT=1
     PS1_ICON_DROPBOX_WORKING=⟳
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=⊝
     PS1_ICON_GIT_AHEAD=⊕
     PS1_ICON_NONZERO_RETURN=‼
 else
+    PS1_UTF_SUPPORT=
     PS1_ICON_DROPBOX_WORKING="*"
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=-
