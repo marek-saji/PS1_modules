@@ -1,0 +1,21 @@
+#!/bin/sh
+
+##
+# Print info if we are in a VM (currently only VBox is supported)
+#
+# Detect by checking whether VBoxClient(1) command is available
+#
+# Params:
+# - $1: Will be displayed if yes
+# - $2: Will be displayed if no
+PS1_vm () {
+    if [ -n "${PS1_vm__is}" ]
+    then
+        printf "$1"
+    else
+        printf "$2"
+    fi
+}
+
+
+PS1_vm__is="$( type VBoxClient 2>/dev/null )"

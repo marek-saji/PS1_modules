@@ -24,6 +24,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./git_counters
 . ./git_status
 . ./lastcmd
+. ./vm
 . ./subshell_vim
 . ./dropbox
 # host's colour is generated from host name
@@ -85,7 +86,11 @@ export PS1='$(
     #             bold black, bold red
     PS1_lastcmd " \e[1;30m" "\e[0;31m${PS1_ICON_NONZERO_RETURN}"
     # command prompt in user-specific colour (red for root)
-)\e[0m\n$ '
+)\e[0m\n$(
+    # indicator whether we are in a VirtualBox guest
+    #                 bold black
+    PS1_vm "VM-"
+)$ '
 # these variables are no longer needed
 unset PS1_user_and_host
 
