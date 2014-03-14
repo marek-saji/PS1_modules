@@ -7,10 +7,10 @@
 #
 # It may look like this:
 #
-# ~/foo/bar/zar+2 (zar-1.0)+3 (vim subshell) user@hostname 13:37 ↖ 1s 1
-# $
+#     ~/.bash/PS1/modules (master)M (vim shell) user@hostname 13:37 ↖ 1s 1
+#     $
 #
-# screenshot: http://i.imgur.com/d6W5mwO.png
+# screenshot: [./saji.png]
 ##
 
 PS1_debug_trap=
