@@ -76,7 +76,8 @@ export PS1='$(
 
     # indicator whether we are in a vim subshell
     #                 bold black
-    PS1_subshell_vim " \e[1;30m"
+    PS1_subshell_vim " \e[1;30m(vim shell)"
+
     # username and hostname, current time (silver)
 ) '"$PS1_user_and_host"' \e[0;37m\A$(
     # duration of last executed command and

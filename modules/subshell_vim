@@ -4,9 +4,13 @@
 # Print info if current shell if a vim subshell.
 #
 # Params:
-# - $1: Will be prepended to returned value, if any.
+# - $1: Will be displayed if yes
+# - $2: Will be displayed if no
 PS1_subshell_vim () {
-    if [ -n "$VIMRUNTIME" ]; then
-        printf "$1(vim shell)"
+    if [ -n "$VIMRUNTIME" ]
+    then
+        printf "$1"
+    else
+        printf "$2"
     fi
 }
