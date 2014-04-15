@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##
 # Print info if we are in a VM (currently only VBox is supported)

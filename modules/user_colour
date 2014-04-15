@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # User-specific colour (different for root)
 # Script params:
 # - $1: colour for root user
