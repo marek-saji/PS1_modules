@@ -26,6 +26,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./lastcmd
 . ./vm
 . ./subshell_vim
+. ./rec
 . ./dropbox
 # host's colour is generated from host name
 HOSTNAME_HASH=$( echo $HOSTNAME | md5sum )
@@ -38,6 +39,7 @@ cd - >/dev/null
 if [ "UTF-8" = "$( locale charmap )" ]
 then
     PS1_UTF_SUPPORT=1
+    PS1_ICON_REC="●"
     PS1_ICON_DROPBOX_WORKING=⟳
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=⊝
@@ -45,6 +47,7 @@ then
     PS1_ICON_NONZERO_RETURN=‼
 else
     PS1_UTF_SUPPORT=
+    PS1_ICON_REC="[rec]"
     PS1_ICON_DROPBOX_WORKING="*"
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=-
@@ -54,6 +57,10 @@ fi
 
 
 export PS1='$(
+    # indicator whether we are being recorder
+    #       bold red
+    PS1_rec "\e[1;31m${PS1_ICON_REC} "
+
     # four colours for four levels of directories
     #                bold cyan, bold blue, blue,      bold balck
     PS1_breadcrumbs "\e[1;36m" "\e[1;34m" "\e[0;34m" "\e[1;30m"

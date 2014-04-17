@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##
+# Print info if current shell if being recorded
+# via ttyrec(1) or script(1)
+#
+# Params:
+# - $1: Will be displayed if yes
+# - $2: Will be displayed if no
+PS1_rec () {
+    if (( ${PS1_rec_status} ))
+    then
+        printf "$2"
+    else
+        printf "$1"
+    fi
+}
+
+ps -p$PPID -ocmd= | grep -qP '^([^ ]*/)?(ttyrec|script)( |$)'
+PS1_rec_status=$?
