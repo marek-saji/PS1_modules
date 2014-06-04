@@ -4,11 +4,15 @@ Modular bash prompt
 Usage
 -----
 
-Checkout wherever (`~/.bash/PS1/` is a good choice) and add this
-to your `~/.bashrc`:
+Checkout wherever (`~/.bash/PS1/` is a good choice) and use one of the
+presets in your `~/.bashrc`:
 
-    . WHEREVER/presets/saji
-    
+    mkdir -p ~/.bash/PS1
+    git clone https://github.com/marek-saji/PS1_modules.git .
+    cat >> ~/.bashrc
+    . ~/.bash/PS1/presets/saji
+    ^D
+
 Your new terminals should look like this:
 
 ![Two-line, comprehend PS1 preset.](presets/saji.png)
