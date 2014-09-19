@@ -32,9 +32,11 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 HOSTNAME_HASH=$( printf $HOSTNAME | md5sum )
 if [ "$( tput colors )" -ge 256 ]
 then
-    . ./user_and_host '\e[0;31m' "$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
+    . ./user_and_host '\e[31m' "$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
+    PS1_RESET_STATUS_BG="\e[0m$( tput setab 234 )"
 else
-    . ./user_and_host '\e[0;31m' "\e[0;$(( 0x${HOSTNAME_HASH:0:1} * 6 / 16 + 31 ))m"
+    . ./user_and_host '\e[31m' "\e[$(( 0x${HOSTNAME_HASH:0:1} * 6 / 16 + 31 ))m"
+    PS1_RESET_STATUS_BG="\e[0m\e[1;40m"
 fi
 unset HOSTNAME_HASH
 # updates screen(1)'s and terminal's titles
@@ -62,43 +64,47 @@ fi
 
 
 export PS1='$(
+    printf "${PS1_RESET_STATUS_BG}"
+
     # indicator whether we are being recorder
     #       bold red
-    PS1_rec "\e[1;31m${PS1_ICON_REC} "
+    PS1_rec "\e[31m${PS1_ICON_REC} "
 
     # four colours for four levels of directories
-    #                bold cyan, bold blue, blue,      bold balck
-    PS1_breadcrumbs "\e[1;36m" "\e[1;34m" "\e[0;34m" "\e[1;30m"
+    #                bold cyan, bold blue, blue,   bold balck
+    PS1_breadcrumbs "\e[36m" "\e[34m" "\e[34m" "\e[30m"
 
     # indicator whether dropbox is syncing current directory
-    PS1_dropbox " \e[1;34m${PS1_ICON_DROPBOX_WORKING}"
+    PS1_dropbox " \e[34m${PS1_ICON_DROPBOX_WORKING}"
 
     # size of stack created using `pushd`
     #                 bold black
-    PS1_dirstack_size "\e[1;30m"
+    PS1_dirstack_size "\e[30m"
 
     # current git branch name
     #             blue
-    PS1_git_branch " \e[0;34m"
+    PS1_git_branch " \e[34m"
 
     # git counters:  stashed,    behind,     ahead
     #                bold black, blue,       bold blue
-    PS1_git_counters "\e[1;30m${PS1_ICON_GIT_STASHED}" "\e[0;34m${PS1_ICON_GIT_BEHIND}" "\e[1;34m${PS1_ICON_GIT_AHEAD}"
+    PS1_git_counters "\e[1;30m${PS1_ICON_GIT_STASHED}" "${PS1_RESET_STATUS_BG}\e[34m${PS1_ICON_GIT_BEHIND}" "${PS1_RESET_STATUS_BG}\e[34m${PS1_ICON_GIT_AHEAD}"
+    printf "${PS1_RESET_STATUS_BG}"
 
     # git status:  staging,    working copy
     #              bold cyan, cyan
-    PS1_git_status "\e[1;36m" "\e[0;36m"
+    PS1_git_status "\e[1;36m" "${PS1_RESET_STATUS_BG}\e[36m"
+    printf "${PS1_RESET_STATUS_BG}"
 
     # indicator whether we are in a vim subshell
     #                 bold black
-    PS1_subshell_vim " \e[1;30m(vim shell)"
+    PS1_subshell_vim " \e[30m(vim shell)"
 
     # username and hostname, current time (silver)
-) '"$PS1_user_and_host"' \e[0;37m\A$(
+) '"$PS1_user_and_host"' \e[37m\A$(
     # duration of last executed command and
     # status of last executed command, if different than "0"
     #             bold black, bold red
-    PS1_lastcmd " \e[1;30m" "\e[0;31m${PS1_ICON_NONZERO_RETURN}"
+    PS1_lastcmd " \e[30m" "\e[31m${PS1_ICON_NONZERO_RETURN}"
     # command prompt in user-specific colour (red for root)
 )\e[0m\n$(
     # indicator whether we are in a VirtualBox guest
