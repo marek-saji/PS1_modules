@@ -20,7 +20,7 @@ PS1_debug_trap=
 cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./breadcrumbs
 . ./dirstack_size
-. ./git_branch
+. ./git_label
 . ./git_counters
 . ./git_status
 . ./lastcmd
@@ -52,6 +52,7 @@ then
     PS1_ICON_GIT_BEHIND=⊝
     PS1_ICON_GIT_AHEAD=⊕
     PS1_ICON_NONZERO_RETURN=‼
+    PS1_ICON_GROWS_FROM=←
 else
     PS1_UTF_SUPPORT=
     PS1_ICON_REC="[rec]"
@@ -60,6 +61,7 @@ else
     PS1_ICON_GIT_BEHIND=-
     PS1_ICON_GIT_AHEAD=+
     PS1_ICON_NONZERO_RETURN="!!"
+    PS1_ICON_GROWS_FROM="<-"
 fi
 
 
@@ -81,9 +83,10 @@ export PS1='$(
     #                 bold black
     PS1_dirstack_size "\e[30m"
 
-    # current git branch name
-    #             blue
-    PS1_git_branch " \e[34m"
+    # where are we, gitwise?
+    #             heavy blue   heavy blue  blue                                                       blue
+    PS1_git_label " \e[1;34m(" "\e[1;34m)" "${PS1_RESET_STATUS_BG}\e[34m ${PS1_ICON_GROWS_FROM} " "…" "${PS1_RESET_STATUS_BG}\e[34m @ "
+    printf "${PS1_RESET_STATUS_BG}"
 
     # git counters:  stashed,    behind,     ahead
     #                bold black, blue,       bold blue
