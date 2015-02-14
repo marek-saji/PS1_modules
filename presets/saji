@@ -27,7 +27,6 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./vm
 . ./subshell_vim
 . ./rec
-. ./dropbox
 . ./user_and_host
 # updates screen(1)'s and terminal's titles
 . ./titles
@@ -75,9 +74,6 @@ export PS1='$(
     PS1_breadcrumbs "\e[1;36m" "\e[1;34m" "\e[0;34m${PS1_BG}" "\e[1;30m"
 
     printf "${PS1_RESET_STATUS_BG}"
-
-    # # indicator whether dropbox is syncing current directory
-    # PS1_dropbox " \e[34m${PS1_ICON_DROPBOX_WORKING}"
 
     # size of stack created using `pushd`
     #                 bold black
