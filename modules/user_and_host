@@ -1,7 +1,9 @@
 #!/bin/bash
+# User name and host printed in their specific colours
 
 # Load modules
-. ./user_colour "$@"
+. ./user_colour
+. ./host_colour
 
-# User name and host printed in user-specific colour
-export PS1_user_and_host="$PS1_user_colour\u@\h"
+# For host use black text and host–specific colour as background
+export PS1_user_and_host="\e[${PS1_user_colour}m\u\e[0;30m\e[$(( PS1_host_colour + 10 ))m@\h"

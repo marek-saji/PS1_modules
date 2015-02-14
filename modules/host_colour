@@ -1,0 +1,25 @@
+#!/bin/bash
+# Host-specific colour (31-36)
+#
+# If /etc/hostcolor and it is executable, it's used to obtain colour
+# escape. If not — colour is generated from the host name (omitting
+# red as it is reserved for critical servers).
+
+ROOT_COLOUR_NO=${1:-31}
+
+if [ -x /etc/hostcolor ]
+then
+    PS1_host_colour="$( /etc/hostcolor )"
+else
+    HOSTNAME_HASH=$( hostname | md5sum )
+    if [ "$( tput colors )" -ge 256 ]
+    then
+        PS1_host_colour="$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
+    else
+        # values from 32-36 (all colours, but black, white and red)
+        PS1_host_colour=$(( 0x${HOSTNAME_HASH:15:1} * 5 / 16 + 32 ))
+    fi
+fi
+
+export PS1_host_colour
+

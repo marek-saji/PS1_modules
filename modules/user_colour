@@ -1,12 +1,35 @@
 #!/bin/bash
-# User-specific colour (different for root)
+# User-specific colour (31-36)
+#
 # Script params:
+#
 # - $1: colour for root user
 # - $2: colour for other users
+#       Leave empty to generate colour from host name.
+
+ROOT_COLOUR_NO=${1:-31}
 
 if [ "$EUID" == "0" ]
 then
-    export PS1_user_colour="$1"
+    PS1_user_colour="${ROOT_COLOUR_NO}"
+elif [ -n "$2" ]
+then
+    PS1_user_colour="$2"
 else
-    export PS1_user_colour="$2"
+    USERNAME_HASH=$( whoami | md5sum )
+    if [ "$( tput colors )" -ge 256 ]
+    then
+        PS1_user_colour="$( tput setaf $(( 0x${USERNAME_HASH:24:2} )) )"
+    else
+        # values from 31-35 (all colours, but black and white and last
+        # one)
+        PS1_user_colour=$(( 0x${USERNAME_HASH:2:1} * 6 / 16 + 31 ))
+        # do not include root's colour
+        if (( PS1_user_colour >= ROOT_COLOUR_NO ))
+        then
+            PS1_user_colour=$(( PS1_user_colour + 1 ))
+        fi
+    fi
 fi
+
+export PS1_user_colour
