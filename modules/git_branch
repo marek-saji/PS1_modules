@@ -1,0 +1,60 @@
+#!/bin/bash
+
+. ./git_rebase
+. ./git_merge
+
+##
+# Print where we are, gitwise
+#
+# Params:
+# - $1: Will be prepended to printed value, if any.
+# - $2: Will be prepended to upstream branch name, if any
+# - $3: Will be prepended to tag names, if any
+PS1_git_label () {
+    LABEL="$( PS1_git_branch__get_label )"
+
+    if [ -n "$LABEL" ]
+    then
+        if ( command git config --get alias.grows-from > /dev/null )
+        then
+            BRANCH="$( PS1_git_branch__get_branch )"
+            UPSTREAM="$( command git grows-from "$BRANCH" )"
+            if [ "$BRANCH" = "$UPSTREAM" ]
+            then
+                UPSTREAM=
+            fi
+        else
+            UPSTREAM="$( PS1_git_branch__get_upstream )"
+        fi
+        test -n "${UPSTREAM}" && LABEL="$2${UPSTREAM}"
+
+        TAGS="$( PS1_git_branch__get_tags )"
+        test -n "${TAGS}" && TAGS="$2${TAGS}"
+
+        printf "$1($LABEL)"
+    fi
+}
+
+##
+# Get active git branch name.
+PS1_git_branch__get_branch () {
+    command git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+##
+# Get upstream branch of an active branch
+PS1_git_branch__get_upstream () {
+    command git rev-parse --abbrev-ref $( PS1_git_branch__get_branch )@{u} 2>/dev/null
+}
+
+##
+# Get tag names pointing to HEAD
+PS1_git_branch__get_tags () {
+    command git describe --exact-match --tags HEAD 2>/dev/null
+}
+
+##
+# Get active git branch human readable name.
+PS1_git_branch__get_label () {
+    command git branch 2>/dev/null | GREP_OPTIONS= grep '^\*' | cut -b3-
+}
