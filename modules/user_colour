@@ -11,7 +11,7 @@ ROOT_COLOUR_NO=${1:-31}
 
 if [ "$EUID" == "0" ]
 then
-    PS1_user_colour="${ROOT_COLOUR_NO}"
+    PS1_user_colour="1;${ROOT_COLOUR_NO}"
 elif [ -n "$2" ]
 then
     PS1_user_colour="$2"
