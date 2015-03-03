@@ -3,6 +3,13 @@
 . ./git_rebase
 . ./git_merge
 
+if [ "UTF-8" = "$( locale charmap )" ]
+then
+    PS1_git_label__UTF8_SUPPORT=1
+else
+    PS1_git_label__UTF8_SUPPORT=
+fi
+
 ##
 # Print where we are, gitwise
 #
@@ -29,11 +36,61 @@ PS1_git_label () {
         else
             UPSTREAM="$( PS1_git_branch__get_upstream )"
         fi
+
         REMOTE="${UPSTREAM%$( printf "/%s" "${LABEL}" )}"
         if [ "${REMOTE}" != "${UPSTREAM}" ]
         then
             UPSTREAM="${REMOTE}/$4"
         fi
+
+        GIT_DIR="$( command git rev-parse --git-dir )"
+        REBASE_LABEL=
+        if [ -f "${GIT_DIR}/rebase-merge/interactive" ]
+        then
+            LABEL="$( command git rev-parse --abbrev-ref "$( cat "${GIT_DIR}/rebase-merge/head-name" )" )"
+            if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+            then
+                LABEL="𝓲𝓷𝓽𝓮𝓻𝓪𝓬𝓽𝓲𝓿𝓮𝓵𝔂 𝓻𝓮𝓫𝓪𝓼𝓲𝓷𝓰 ${LABEL}"
+            else
+                LABEL="interactively rebasing ${LABEL}"
+            fi
+        elif [ -d "${GIT_DIR}/rebase-merge" ]
+        then
+            LABEL="$( command git rev-parse --abbrev-ref "$( cat "${GIT_DIR}/rebase-merge/head-name" )" )"
+            if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+            then
+                LABEL="𝓻𝓮𝓫𝓪𝓼𝓲𝓷𝓰 ${LABEL}"
+            else
+                LABEL="rebasing ${LABEL}"
+            fi
+        elif [ -d "${GIT_DIR}/rebase-apply" ]
+        then
+            if [ -f "${GIT_DIR}/rebase-apply/rebasing" ]
+            then
+                if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+                then
+                    LABEL="𝓻𝓮𝓫𝓪𝓼𝓲𝓷𝓰 ${LABEL}"
+                else
+                    LABEL="rebasing ${LABEL}"
+                fi
+            elif [ -f "${GIT_DIR}/rebase-apply/applying" ]
+            then
+                if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+                then
+                    LABEL="𝓪𝓹𝓹𝓵𝔂𝓲𝓷𝓰 𝓹𝓪𝓽𝓬𝓱𝓮𝓼 𝓽𝓸 ${LABEL}"
+                else
+                    LABEL="applying patches to ${LABEL}"
+                fi
+            else
+                if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+                then
+                    LABEL="𝓻𝓮𝓫𝓪𝓼𝓲𝓷𝓰 𝓸𝓻 𝓪𝓹𝓹𝓵𝔂𝓲𝓷𝓰 𝓹𝓪𝓽𝓬𝓱𝓮𝓼 𝓽𝓸 ${LABEL}"
+                else
+                    LABEL="rebasing or applying patches to ${LABEL}"
+                fi
+            fi
+        fi
+
         test -n "${UPSTREAM}" && LABEL="${LABEL}$3${UPSTREAM}"
 
         TAGS="$( PS1_git_branch__get_tags )"
