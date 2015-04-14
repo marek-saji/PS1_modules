@@ -109,7 +109,8 @@ PS1_git_branch__get_branch () {
 ##
 # Get upstream branch of an active branch
 PS1_git_branch__get_upstream () {
-    command git rev-parse --abbrev-ref $( PS1_git_branch__get_branch )@{u} 2>/dev/null
+    UPSTREAM_BRANCH="$( command git rev-parse --revs-only --abbrev-ref $( PS1_git_branch__get_branch )@{u} 2>/dev/null )"
+    echo ${UPSTREAM_BRANCH:-(gone)}
 }
 
 ##

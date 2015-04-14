@@ -26,6 +26,10 @@ PS1_git_counters () {
     then
         return
     fi
+    if ! ( command git branch --remote --no-color | grep -q "^..${TRACKING_BRANCH}$" )
+    then
+        return
+    fi
 
 
     set -- $(command git rev-list --left-right --count ${TRACKING_BRANCH}...HEAD)
