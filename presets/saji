@@ -62,7 +62,7 @@ else
 fi
 
 
-export PS1='$(
+export PS1="${PS1_user_and_host}${PS1_RESET_STATUS_BG}"' \e[37m\A $(
     printf "${PS1_RESET_STATUS_BG}"
 
     # indicator whether we are being recorder
@@ -98,8 +98,6 @@ export PS1='$(
     #                bold black
     PS1_subshell_vim " \e[1;30m(vim shell)"
 
-    # username and hostname, current time (silver)
-) '"${PS1_user_and_host}${PS1_RESET_STATUS_BG}"' \e[37m\A$(
     # duration of last executed command and
     # status of last executed command, if different than "0"
     #           bold black, bold red
