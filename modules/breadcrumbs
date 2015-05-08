@@ -32,5 +32,5 @@ PS1_breadcrumbs () {
             break
         fi
     done
-    printf "$CRUMBS"
+    printf "%s" "$CRUMBS"
 }
