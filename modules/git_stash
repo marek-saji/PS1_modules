@@ -7,7 +7,7 @@
 # - $1: Will be prepended to returned value, if any.
 # - $2: Will be appended, if any output
 PS1_git_stash () {
-    STASH_COUNT="$( PS1_git_stash__get )"
+    STASH_COUNT="$(( $( PS1_git_stash__get ) ))"
     test "$STASH_COUNT" = "0" || printf "$1$STASH_COUNT$2"
 }
 
