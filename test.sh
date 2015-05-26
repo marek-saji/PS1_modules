@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BASEDIR="$PWD"
-TMPDIR="$( mktemp --directory )"
+TMPDIR="$( mktemp -d )"
 
 # Script will return with that status
 STATUS=0
