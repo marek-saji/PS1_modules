@@ -11,13 +11,17 @@ if [ -x /etc/hostcolor ]
 then
     PS1_host_colour="$( /etc/hostcolor )"
 else
-    HOSTNAME_HASH=$( hostname | md5sum )
-    if [ "$( tput colors )" -ge 256 ]
+    MD5CMD="$( which md5sum || which md5 )"
+    if [ -n "${MD5CMD}" ]
     then
-        PS1_host_colour="$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
-    else
-        # values from 32-36 (all colours, but black, white and red)
-        PS1_host_colour=$(( 0x${HOSTNAME_HASH:15:1} * 5 / 16 + 32 ))
+        HOSTNAME_HASH=$( hostname | "${MD5CMD}" )
+        if [ "$( tput colors )" -ge 256 ]
+        then
+            PS1_host_colour="$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
+        else
+            # values from 32-36 (all colours, but black, white and red)
+            PS1_host_colour=$(( 0x${HOSTNAME_HASH:15:1} * 5 / 16 + 32 ))
+        fi
     fi
 fi
 

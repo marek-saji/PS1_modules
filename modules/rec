@@ -16,5 +16,5 @@ PS1_rec () {
     fi
 }
 
-ps -p$PPID -ocmd= | grep -qP '^([^ ]*/)?(ttyrec|script)( |$)'
+ps -p$PPID -ocommand= | grep -qE '^([^ ]*/)?(ttyrec|script)( |$)'
 PS1_rec_status=$?
