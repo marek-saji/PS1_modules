@@ -27,6 +27,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./vm
 . ./subshell_vim
 . ./rec
+. ./ssh
 . ./user_and_host
 # updates screen(1)'s and terminal's titles
 . ./titles
@@ -43,7 +44,8 @@ PS1_RESET_STATUS_BG="\e[0m${PS1_BG}"
 if [ "UTF-8" = "$( locale charmap )" ]
 then
     PS1_UTF_SUPPORT=1
-    PS1_ICON_REC="●"
+    PS1_ICON_REC=●
+    PS1_ICON_SSH=🌐
     PS1_ICON_DROPBOX_WORKING=⟳
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=⊝
@@ -53,6 +55,7 @@ then
 else
     PS1_UTF_SUPPORT=
     PS1_ICON_REC="[rec]"
+    PS1_ICON_SSH="(ssh)"
     PS1_ICON_DROPBOX_WORKING="*"
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=-
@@ -62,10 +65,12 @@ else
 fi
 
 
-export PS1="${PS1_user_and_host}${PS1_RESET_STATUS_BG}"' \e[37m\A $(
+export PS1="${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
+    # indicator whether we are being connected via ssh
+    PS1_ssh " \e[1;32m${PS1_ICON_SSH}"
     printf "${PS1_RESET_STATUS_BG}"
-
-    # indicator whether we are being recorder
+) \e[37m\A $(
+    # indicator whether we are being recorded
     #       bold red
     PS1_rec "\e[1;31m${PS1_ICON_REC} "
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+##
+# Print info if is currently connected via ssh(1)
+#
+# Params:
+# - $1: Will be displayed if yes
+# - $2: Will be displayed if no
+PS1_ssh () {
+    if [ -z "${SSH_CONNECTION}" ]
+    then
+        printf "$2"
+    else
+        printf "$1"
+    fi
+}
