@@ -22,7 +22,7 @@ else
         USERNAME_HASH=$( whoami | "${MD5CMD}" )
         if [ "$( tput colors )" -ge 256 ]
         then
-            PS1_user_colour="$( tput setaf $(( 0x${USERNAME_HASH:24:2} )) )"
+            PS1_user_colour="$( tput setaf $(( 0x${USERNAME_HASH:2:2} )) )"
         else
             # values from 31-35 (all colours, but black and white and last
             # one)
@@ -32,6 +32,7 @@ else
             then
                 PS1_user_colour=$(( PS1_user_colour + 1 ))
             fi
+            PS1_user_colour="\e[${PS1_user_colour}m"
         fi
     fi
 fi

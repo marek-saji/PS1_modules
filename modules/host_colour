@@ -17,10 +17,15 @@ else
         HOSTNAME_HASH=$( hostname | "${MD5CMD}" )
         if [ "$( tput colors )" -ge 256 ]
         then
-            PS1_host_colour="$( tput setaf $(( 0x${HOSTNAME_HASH:24:2} )) )"
+            PS1_host_colour="$(
+                tput setaf 0
+                tput setab $(( 0x${HOSTNAME_HASH:32:2} + 2 ))
+            )"
         else
             # values from 32-36 (all colours, but black, white and red)
             PS1_host_colour=$(( 0x${HOSTNAME_HASH:15:1} * 5 / 16 + 32 ))
+            PS1_host_colour=$(( PS1_host_colour + 10 ))
+            PS1_host_colour="\e[${PS1_host_colour}m"
         fi
     fi
 fi
