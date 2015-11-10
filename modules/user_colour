@@ -15,7 +15,13 @@ then
 elif [ -n "$2" ]
 then
     PS1_user_colour="$2"
-else
+elif [ -x ~/.config/usercolour ]
+then
+    PS1_user_colour="$( ~/.config/usercolour )"
+fi
+
+if [ -z "${PS1_user_colour}" ]
+then
     MD5CMD="$( which md5sum || which md5 )"
     if [ -n "${MD5CMD}" ]
     then
