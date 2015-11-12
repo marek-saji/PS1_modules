@@ -65,7 +65,7 @@ else
 fi
 
 
-export PS1="${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
+export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     # indicator whether we are being connected via ssh
     PS1_ssh " \e[1;32m${PS1_ICON_SSH}"
     printf "${PS1_RESET_STATUS_BG}"

@@ -18,19 +18,39 @@ then
     if [ -n "${MD5CMD}" ]
     then
         HOSTNAME_HASH=$( hostname | "${MD5CMD}" )
+        CODE=$(( 0x${HOSTNAME_HASH:27:1}${HOSTNAME_HASH:3:1} - 12 ))
+        if (( CODE < 0 ))
+        then
+            CODE=$(( CODE + 256 ))
+        fi
+        CODE=$(( (CODE-2) % 220 + 2 ))
+
+        # blacks (unreadable on most terminals)
+        if (( CODE == 0 )) || (( CODE == 16 ))
+        then
+            CODE=$(( ( CODE + 128 ) % 222 ))
+        fi
+        # reds (reserved for special ocasions)
+        if (( CODE == 9 )) || (( ( CODE-52 )%36 == 0 && CODE >= 52 ))
+        then
+            CODE=$(( ( CODE + 128 ) % 222 ))
+        fi
+
         if [ "$( tput colors )" -ge 256 ]
         then
             PS1_host_colour="$(
                 tput setaf 0
-                tput setab $(( 0x${HOSTNAME_HASH:32:2} + 2 ))
+                tput setab ${CODE}
             )"
         else
-            # values from 32-36 (all colours, but black, white and red)
-            PS1_host_colour=$(( 0x${HOSTNAME_HASH:15:1} * 5 / 16 + 32 ))
-            PS1_host_colour=$(( PS1_host_colour + 10 ))
-            PS1_host_colour="\e[${PS1_host_colour}m"
+            CODE=$(( CODE % 6 + 32 ))
+            CODE=$(( CODE + 10 ))
+            PS1_host_colour="\e[${CODE}m"
         fi
+        unset HOSTNAME_HASH
+        unset CODE
     fi
+    unset MD5CMD
 fi
 
 export PS1_host_colour

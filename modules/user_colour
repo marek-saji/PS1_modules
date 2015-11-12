@@ -1,5 +1,5 @@
 #!/bin/bash
-# User-specific colour (31-36)
+# User-specific colour
 #
 # Script params:
 #
@@ -7,11 +7,19 @@
 # - $2: colour for other users
 #       Leave empty to generate colour from host name.
 
-ROOT_COLOUR_NO=${1:-31}
+if [ -z "${ROOT_COLOUR}" ]
+then
+    if [ "$( tput colors )" -ge 256 ]
+    then
+        ROOT_COLOUR="\e[1;31m"
+    else
+        ROOT_COLOUR="$( tput bold; tput setaf 196 )"
+    fi
+fi
 
 if [ "$EUID" == "0" ]
 then
-    PS1_user_colour="1;${ROOT_COLOUR_NO}"
+    PS1_user_colour="${ROOT_COLOUR}"
 elif [ -n "$2" ]
 then
     PS1_user_colour="$2"
@@ -26,21 +34,45 @@ then
     if [ -n "${MD5CMD}" ]
     then
         USERNAME_HASH=$( whoami | "${MD5CMD}" )
+        CODE=$(( 0x${USERNAME_HASH:27:1}${USERNAME_HASH:3:1} - 12 ))
+        CODE=$(( (CODE-2) % 220 + 2 ))
+
+        # blacks (unreadable on most terminals)
+        if (( CODE == 0 )) || (( CODE == 16 ))
+        then
+            CODE=$(( ( CODE + 128 ) % 222 ))
+        fi
+        # reds (reserved for root)
+        if (( CODE == 9 )) || (( ( CODE-52 )%36 == 0 && CODE >= 52 ))
+        then
+            CODE=$(( ( CODE + 128 ) % 222 ))
+        fi
+
         if [ "$( tput colors )" -ge 256 ]
         then
-            PS1_user_colour="$( tput setaf $(( 0x${USERNAME_HASH:2:2} )) )"
-        else
-            # values from 31-35 (all colours, but black and white and last
-            # one)
-            PS1_user_colour=$(( 0x${USERNAME_HASH:2:1} * 6 / 16 + 31 ))
+            PS1_user_colour="$( tput setaf $CODE )"
+
             # do not include root's colour
-            if (( PS1_user_colour >= ROOT_COLOUR_NO ))
+            if [ "${PS1_user_colour}" = "${ROOT_COLOUR}" ]
             then
-                PS1_user_colour=$(( PS1_user_colour + 1 ))
+                CODE=$(( ( CODE + 128 ) % 222 ))
+                PS1_user_colour="$( tput setaf $CODE )"
             fi
-            PS1_user_colour="\e[${PS1_user_colour}m"
+        else
+            CODE=$(( CODE % 6 + 32 ))
+            PS1_user_colour="\e[${CODE}m"
+
+            # do not include root's colour
+            if [ "${PS1_user_colour}" = "${ROOT_COLOUR}" ]
+            then
+                CODE=$(( CODE + 1 ))
+                PS1_user_colour="\e[${CODE}m"
+            fi
         fi
+        unset CODE
+        unset USERNAME_HASH
     fi
+    unset MD5CMD
 fi
 
 export PS1_user_colour
