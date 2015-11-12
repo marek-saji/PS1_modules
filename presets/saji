@@ -35,9 +35,17 @@ cd - >/dev/null
 
 if [ "$( tput colors )" -ge 256 ]
 then
-    PS1_BG="$( tput setab 234 )"
+    PS1_BG="$( tput sgr0; tput setab 234 )"
+    PS1_breadcrumbs0="$( tput setaf 39; tput bold )"
+    PS1_breadcrumbs1="$( tput setaf 39 )"
+    PS1_breadcrumbs2="$( tput setaf 37 )"
+    PS1_breadcrumbs3="$( tput setaf 36 )"
 else
     PS1_BG="\e[40m"
+    PS1_breadcrumbs0="$( tput sgr0; tput setab 0; tput setaf 6; tput bold )"
+    PS1_breadcrumbs1="$( tput sgr0; tput setab 0; tput setaf 4; tput bold )"
+    PS1_breadcrumbs2="$( tput sgr0; tput setab 0; tput setaf 4 )"
+    PS1_breadcrumbs3="$( tput sgr0; tput setab 0; tput setaf 0; tput bold )"
 fi
 PS1_RESET_STATUS_BG="\e[0m${PS1_BG}"
 
@@ -75,8 +83,7 @@ export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     PS1_rec "\e[1;31m${PS1_ICON_REC} "
 
     # four colours for four levels of directories
-    #               bold cyan, bold blue, blue,               bold balck
-    PS1_breadcrumbs "\e[1;36m" "\e[1;34m" "\e[0;34m${PS1_BG}" "\e[1;30m"
+    PS1_breadcrumbs "${PS1_breadcrumbs0}" "${PS1_breadcrumbs1}" "${PS1_breadcrumbs2}" "${PS1_breadcrumbs3}"
 
     printf "${PS1_RESET_STATUS_BG}"
 
