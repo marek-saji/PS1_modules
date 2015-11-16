@@ -16,5 +16,10 @@ PS1_rec () {
     fi
 }
 
-ps -p$PPID -ocommand= | grep -qE '^([^ ]*/)?(ttyrec|script)( |$)'
-PS1_rec_status=$?
+if [ -n "$PPID" ] && [ "0" != "$PPID" ]
+then
+    ps -p$PPID -ocommand= | grep -qE '^([^ ]*/)?(ttyrec|script)( |$)'
+    PS1_rec_status=$?
+else
+    PS1_rec_status=1
+fi
