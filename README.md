@@ -10,12 +10,12 @@ presets in your `~/.bashrc`:
     mkdir -p ~/.bash/PS1
     git clone https://github.com/marek-saji/PS1_modules.git .
     cat >> ~/.bashrc
-    . ~/.bash/PS1/presets/saji
+    . ~/.bash/PS1/presets/full
     ^D
 
 Your new terminals should look like this:
 
-![Two-line, comprehend PS1 preset.](presets/saji.png)
+![Two-line, comprehend PS1 preset.](presets/full.png)
 
 
 
