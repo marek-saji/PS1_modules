@@ -1,3 +1,4 @@
 # Travis does not support bash
 language: c
 script: ./test.sh
+sudo: false
