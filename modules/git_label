@@ -54,6 +54,22 @@ PS1_git_label () {
             else
                 LABEL="interactively rebasing ${LABEL}"
             fi
+            if [ -e "${GIT_DIR}/rebase-merge/done" ] && [ -e "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" ]
+            then
+                DONE="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | wc -l )"
+                ALL="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" | wc -l )"
+                CURRENT_REF="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | tail -n1 | cut -d' ' -f2 )"
+                CURRENT_REF="$( command git rev-parse --short "${CURRENT_REF}" )"
+                if [ -n "${DONE}" ] && [ -n "${ALL}" ] && [ -n "${CURRENT_REF}" ]
+                then
+                    if [ -n "${PS1_git_label__UTF8_SUPPORT}" ]
+                    then
+                      DONE="$( echo "${DONE}" | sed -e s/0/⁰/g -e s/1/¹/g -e s/2/²/g -e s/3/³/g -e s/4/⁴/g -e s/5/⁵/g -e s/6/⁶/g -e s/7/⁷/g -e s/8/⁸/g -e s/9/⁹/g )"
+                      ALL="$( echo "${ALL}" | sed -e s/0/₀/g -e s/1/₁/g -e s/2/₂/g -e s/3/₃/g -e s/4/₄/g -e s/5/₅/g -e s/6/₆/g -e s/7/₇/g -e s/8/₈/g -e s/9/₉/g )"
+                    fi
+                    LABEL="${LABEL} (${DONE}/${ALL} ${CURRENT_REF})"
+                fi
+            fi
         elif [ -d "${GIT_DIR}/rebase-merge" ]
         then
             LABEL="$( command git rev-parse --abbrev-ref "$( cat "${GIT_DIR}/rebase-merge/head-name" )" )"
