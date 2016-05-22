@@ -73,6 +73,7 @@ else
 fi
 
 
+[ -z "${system_PS1}" ] && export system_PS1="${PS1}"
 export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     # indicator whether we are being connected via ssh
     PS1_ssh " \e[1;32m${PS1_ICON_SSH}"
