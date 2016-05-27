@@ -19,6 +19,7 @@ PS1_debug_trap=
 # that when loading other modules.
 cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./breadcrumbs
+. ./cwd_check
 . ./dirstack_size
 . ./git_label
 . ./git_counters
@@ -58,7 +59,7 @@ then
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=⊝
     PS1_ICON_GIT_AHEAD=⊕
-    PS1_ICON_NONZERO_RETURN=‼
+    PS1_ICON_ERROR=‼
     PS1_ICON_GROWS_FROM=←
 else
     PS1_UTF_SUPPORT=
@@ -68,7 +69,7 @@ else
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=-
     PS1_ICON_GIT_AHEAD=+
-    PS1_ICON_NONZERO_RETURN="!!"
+    PS1_ICON_ERROR="!!"
     PS1_ICON_GROWS_FROM="<-"
 fi
 
@@ -87,6 +88,9 @@ export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     PS1_breadcrumbs "${PS1_breadcrumbs0}" "${PS1_breadcrumbs1}" "${PS1_breadcrumbs2}" "${PS1_breadcrumbs3}"
 
     printf "${PS1_RESET_STATUS_BG}"
+
+    # notification, if current directory was renamed
+    PS1_cwd_check "\e[1;31m${PS1_ICON_ERROR} " "${PS1_RESET_STATUS_BG}"
 
     # size of stack created using `pushd`
     #                 bold black
@@ -114,7 +118,7 @@ export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     # duration of last executed command and
     # status of last executed command, if different than "0"
     #           bold black, bold red
-    PS1_lastcmd " \e[1;30m" "\e[1;31m${PS1_ICON_NONZERO_RETURN}"
+    PS1_lastcmd " \e[1;30m" "\e[1;31m${PS1_ICON_ERROR}"
     # command prompt in user-specific colour (red for root)
 )\e[0m\n$(
     # indicator whether we are in a VirtualBox guest

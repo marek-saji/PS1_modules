@@ -1,0 +1,22 @@
+#!/bin/bash
+
+##
+# Print a notification, if current directory was renamed or does not
+# exist
+#
+# Params:
+# - $1 Prefix
+# - $2 Suffix
+PS1_cwd_check ()
+{
+    REAL_CWD="$( { cd .; pwd; } 2>/dev/null ; )"
+    if [ "${REAL_CWD}" != "${PWD}" ]
+    then
+        if [[ "${REAL_CWD}" =~ /\.$ ]]
+        then
+            printf " $1CWD has been deleted$2" "${REAL_CWD}"
+        else
+            printf " $1CWD=%s$2" "${REAL_CWD}"
+        fi
+    fi
+}
