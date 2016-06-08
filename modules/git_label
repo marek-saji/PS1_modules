@@ -56,8 +56,8 @@ PS1_git_label () {
             fi
             if [ -e "${GIT_DIR}/rebase-merge/done" ] && [ -e "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" ]
             then
-                DONE="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | wc -l )"
-                ALL="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" | wc -l )"
+                DONE=$(( $( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | wc -l ) ))
+                ALL=$(( $( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" | wc -l ) ))
                 CURRENT_REF="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | tail -n1 | cut -d' ' -f2 )"
                 CURRENT_REF="$( command git rev-parse --short "${CURRENT_REF}" )"
                 if [ -n "${DONE}" ] && [ -n "${ALL}" ] && [ -n "${CURRENT_REF}" ]
