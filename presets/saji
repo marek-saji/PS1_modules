@@ -1,5 +1,0 @@
-#!/bin/bash
-
-printf "\n\033[0;41mPS1_module's preset \`saji' has been renamed to \`full'. Update your .bashrc accordingly as this will stop working in the future.\033[m\n\n"
-
-. "$( dirname "${BASH_ARGV[0]} ")/full"
