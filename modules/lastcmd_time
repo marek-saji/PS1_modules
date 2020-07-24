@@ -12,7 +12,7 @@ PS1_lastcmd_time () {
     then
         if [ "UTF-8" = "$( locale charmap )" ]
         then
-            printf "$1↖ $TIME"
+            printf "$1⭦ $TIME"
         else
             printf "$1took $TIME"
         fi
