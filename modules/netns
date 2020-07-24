@@ -1,0 +1,19 @@
+#!/bin/bash
+
+##
+# Print info if current shell is using netns
+#
+# Params:
+# - $1: Will be displayed if yes (%s = namespace name)
+# - $2: Will be displayed if no
+PS1_netns () {
+    local name
+    name="$( ip netns identify $$ )"
+    if [ -n "$name" ]
+    then
+        # shellcheck disable=SC2059
+        printf "$1" "$name"
+    else
+        printf '%s' "$2"
+    fi
+}

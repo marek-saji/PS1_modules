@@ -26,6 +26,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./git_status
 . ./lastcmd
 . ./vm
+. ./netns
 . ./subshell_vim
 . ./rec
 . ./ssh
@@ -110,6 +111,9 @@ export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     #              bold cyan, cyan
     PS1_git_status "\e[1;36m" "${PS1_RESET_STATUS_BG}\e[36m"
     printf "${PS1_RESET_STATUS_BG}"
+
+    # indicator whatever we are in netns subshell
+    PS1_netns " \e[1;30m(netns:%s)"
 
     # indicator whether we are in a vim subshell
     #                bold black
