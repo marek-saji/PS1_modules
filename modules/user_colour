@@ -7,13 +7,18 @@
 # - $2: colour for other users
 #       Leave empty to generate colour from host name.
 
+PS1_colours="$( tput colors 2>/dev/null || echo 0 )"
+
 if [ -z "${ROOT_COLOUR}" ]
 then
-    if [ "$( tput colors )" -ge 256 ]
+    if [ "$PS1_colours" -ge 256 ]
     then
         ROOT_COLOUR="\e[1;31m"
-    else
+    elif [ "$PS1_colours" -gt 0 ]
+    then
         ROOT_COLOUR="$( tput bold; tput setaf 196 )"
+    else
+        ROOT_COLOUR=""
     fi
 fi
 
@@ -48,7 +53,7 @@ then
             CODE=$(( ( CODE + 128 ) % 222 ))
         fi
 
-        if [ "$( tput colors )" -ge 256 ]
+        if [ "$PS1_colours" -ge 256 ]
         then
             PS1_user_colour="$( tput setaf $CODE )"
 

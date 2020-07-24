@@ -34,7 +34,7 @@ then
             CODE=$(( ( CODE + 128 ) % 222 ))
         fi
 
-        if [ "$( tput colors )" -ge 256 ]
+        if [ "$( tput colors 2>/dev/null || echo 0 )" -ge 256 ]
         then
             PS1_host_colour="$(
                 tput setaf 0

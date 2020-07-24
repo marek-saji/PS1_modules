@@ -36,19 +36,27 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules" || return
 . ./titles
 cd - >/dev/null || return
 
-if [ "$( tput colors )" -ge 256 ]
+PS1_colours="$( tput colors 2>/dev/null || echo 0 )"
+if [ "$PS1_colours" -ge 256 ]
 then
     PS1_BG="$( tput sgr0; tput setab 234 )"
     PS1_breadcrumbs0="$( tput setaf 39; tput bold )"
     PS1_breadcrumbs1="$( tput setaf 39 )"
     PS1_breadcrumbs2="$( tput setaf 37 )"
     PS1_breadcrumbs3="$( tput setaf 36 )"
-else
+elif [ "$PS1_colours" -gt 0 ]
+then
     PS1_BG="\e[40m"
     PS1_breadcrumbs0="$( tput sgr0; tput setab 0; tput setaf 6; tput bold )"
     PS1_breadcrumbs1="$( tput sgr0; tput setab 0; tput setaf 4; tput bold )"
     PS1_breadcrumbs2="$( tput sgr0; tput setab 0; tput setaf 4 )"
     PS1_breadcrumbs3="$( tput sgr0; tput setab 0; tput setaf 0; tput bold )"
+else
+    PS1_BG=""
+    PS1_breadcrumbs0=""
+    PS1_breadcrumbs1=""
+    PS1_breadcrumbs2=""
+    PS1_breadcrumbs3=""
 fi
 PS1_RESET_STATUS_BG="\e[0m${PS1_BG}"
 
