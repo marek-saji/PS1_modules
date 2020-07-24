@@ -19,20 +19,18 @@ PROMPT_COMMAND=
 
 for PRESET in "$BASEDIR"/presets/*
 do
-    if [ "$( file --mime-type "$PRESET" | cut -d: -f2 )" != " text/x-shellscript" ]
+    if [ "$( file --mime-type --brief "$PRESET" )" != "text/x-shellscript" ]
     then
         continue
     fi
 
-    printf '.'
+    printf '%s: ' "$( basename $PRESET )"
 
     OUTPUT="$( . "$PRESET" 2>&1 > /dev/null )"
     if [ -n "$OUTPUT" ]
     then
         error_in_output "$PRESET" "Output on stderr" "$OUTPUT"
     fi
-
-
     printf '.'
 
     printf 'export PATH="%s"\n' "$PATH" > .bashrc
@@ -45,23 +43,25 @@ do
     then
         error_in_output "$PRESET" 'Lines starting with "bash: "' "$OUTPUT"
     fi
+    printf '.'
 
 
     if ( echo "$OUTPUT" | grep -Eq '^PS1_' )
     then
         error_in_output "$PRESET" 'Lines starting with "PS1_"' "$OUTPUT"
     fi
+    printf '.'
 
     if [[ $OUTPUT =~ "command not found" ]]
     then
         error_in_output "$PRESET" 'Lines containing "command not found"' "$OUTPUT"
     fi
+    printf '.'
 
     rm .bashrc
 
-    printf ' '
+    printf '\n'
 done
-printf '\n'
 
 cd - > /dev/null
 rm -rf "$TMPDIR"
