@@ -54,14 +54,14 @@ PS1_RESET_STATUS_BG="\e[0m${PS1_BG}"
 if [ "UTF-8" = "$( locale charmap )" ]
 then
     PS1_UTF_SUPPORT=1
-    PS1_ICON_REC=●
-    PS1_ICON_SSH=🌐
-    PS1_ICON_DROPBOX_WORKING=⟳
-    PS1_ICON_GIT_STASHED=+
-    PS1_ICON_GIT_BEHIND=⊝
-    PS1_ICON_GIT_AHEAD=⊕
-    PS1_ICON_ERROR=‼
-    PS1_ICON_GROWS_FROM=←
+    PS1_ICON_REC="● "
+    PS1_ICON_SSH="🌐"
+    PS1_ICON_DROPBOX_WORKING="⟳ "
+    PS1_ICON_GIT_STASHED="+"
+    PS1_ICON_GIT_BEHIND="⊝"
+    PS1_ICON_GIT_AHEAD="⊕"
+    PS1_ICON_ERROR="‼ "
+    PS1_ICON_GROWS_FROM="←"
 else
     PS1_UTF_SUPPORT=
     PS1_ICON_REC="[rec]"
