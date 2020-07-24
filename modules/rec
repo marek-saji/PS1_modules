@@ -8,16 +8,19 @@
 # - $1: Will be displayed if yes
 # - $2: Will be displayed if no
 PS1_rec () {
-    if (( ${PS1_rec_status} ))
+    if (( PS1_rec_status ))
     then
+        # shellcheck disable=SC2059
         printf "$2"
     else
+        # shellcheck disable=SC2059
         printf "$1"
     fi
 }
 
 if [ -n "$PPID" ] && [ "0" != "$PPID" ]
 then
+    # shellcheck disable=SC2009
     ps -p$PPID -ocommand= | grep -qE '^([^ ]*/)?(ttyrec|script)( |$)'
     PS1_rec_status=$?
 else

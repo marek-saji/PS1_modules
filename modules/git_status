@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2154
 
 ##
 # Print git status
@@ -21,7 +22,8 @@ PS1_git_status () {
         STAGING_STATUS="$( echo "$STAGING_STATUS"         | sed -e s/0/⁰/g -e s/1/¹/g -e s/2/²/g -e s/3/³/g -e s/4/⁴/g -e s/5/⁵/g -e s/6/⁶/g -e s/7/⁷/g -e s/8/⁸/g -e s/9/⁹/g -e s/A/ᵃ/g -e s/M/ᵐ/g -e s/D/ᵈ/g -e s/R/ʳ/g )"
         WORKINGCOPY_STATUS="$( echo "$WORKINGCOPY_STATUS" | sed -e s/0/₀/g -e s/1/₁/g -e s/2/₂/g -e s/3/₃/g -e s/4/₄/g -e s/5/₅/g -e s/6/₆/g -e s/7/₇/g -e s/8/₈/g -e s/9/₉/g -e s/A/ₐ/g -e s/M/ₘ/g -e s/D/d/g -e s/R/ᵣ/g -e s/U/ᵤ/g -e s/?/?/g )"
     fi
-    test -n "$STAGING_STATUS"     && printf "$1$STAGING_STATUS"
-    test -n "$WORKINGCOPY_STATUS" && printf "$2$WORKINGCOPY_STATUS"
+    test -n "$STAGING_STATUS"     && printf "$1%s" "$STAGING_STATUS"
+    test -n "$WORKINGCOPY_STATUS" && printf "$2%s" "$WORKINGCOPY_STATUS"
+    # shellcheck disable=SC2059
     test -n "$STAGING_STATUS" || test -n "$WORKINGCOPY_STATUS" && printf "$3"
 }

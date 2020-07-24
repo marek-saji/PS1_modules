@@ -9,8 +9,10 @@
 PS1_ssh () {
     if [ -z "${SSH_CONNECTION}" ]
     then
+        # shellcheck disable=SC2059
         printf "$2"
     else
+        # shellcheck disable=SC2059
         printf "$1"
     fi
 }

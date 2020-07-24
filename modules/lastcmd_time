@@ -12,9 +12,9 @@ PS1_lastcmd_time () {
     then
         if [ "UTF-8" = "$( locale charmap )" ]
         then
-            printf "$1⭦ $TIME"
+            printf "$1⭦ %s" "$TIME"
         else
-            printf "$1took $TIME"
+            printf "$1took %s" "$TIME"
         fi
     fi
 }
@@ -29,16 +29,18 @@ PS1_lastcmd_time__get () {
     if [ -z "$CMD_SEC" ]
     then
         printf "\nDid you register debug trap in your PS1 preset?\ntrap \$PS1_debug_trap DEBUG\n."
-    elif [ 0 -ne $CMD_SEC ] && [ 0 -lt $CMD_SEC ]
+    elif [ 0 -ne "$CMD_SEC" ] && [ 0 -lt "$CMD_SEC" ]
     then
-        if [ $CMD_SEC -gt 60 ]
+        if [ "$CMD_SEC" -gt 60 ]
         then
             # 50% volume
             PLAY="paplay --volume=32768"
             SOUND=/usr/share/sounds/gnome/default/alerts/glass.ogg
-            if ( which $PLAY >/dev/null) && [ -e $SOUND ]
+            # shellcheck disable=SC2086
+            if ( command -v $PLAY >/dev/null) && [ -e $SOUND ]
             then
-                $PLAY $SOUND & 2>&1 > /dev/null
+                # shellcheck disable=SC2086
+                $PLAY "$SOUND" >/dev/null 2>&1 &
             fi
         fi
         CMD_MIN=$(( CMD_SEC / 60 ))

@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
 # Load modules
 . ./title
@@ -22,7 +23,7 @@ PS1_titles () {
         screen*|tmux*)
             echo -ne "\ek${TITLE}\e\\"
 
-            SCREEN_NAME="$( echo $STY | cut -d. -f2- )"
+            SCREEN_NAME="$( echo "$STY" | cut -d. -f2- )"
             [ -n "${WINDOW}" ] && SCREEN_NAME="${SCREEN_NAME}(${WINDOW})"
             if [ -n "${SCREEN_NAME}" ]
             then

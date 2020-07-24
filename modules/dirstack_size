@@ -10,6 +10,7 @@ PS1_dirstack_size () {
     SIZE=$(( SIZE - 1 ))
     if [ $SIZE -gt 0 ]
     then
+        # shellcheck disable=SC2059
         printf "$1+$SIZE"
     fi
 }

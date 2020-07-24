@@ -1,5 +1,6 @@
 #!/bin/bash
 # (c) Marek `saji' Augustynowicz
+# shellcheck disable=SC1091,SC2034,SC2154,SC2025
 
 ##
 # {GIT_TAG}{GIT_STASH_COUNT} {SYSTEM DEFAULT PROMPT}
@@ -11,12 +12,12 @@
 
 # Have to change directory to `modules/`, as modules depend on
 # that when loading other modules.
-cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
+cd "$( dirname "${BASH_ARGV[0]}" )/../modules" || return
 . ./git_tag
 . ./git_stash
 . ./git_counters
 . ./git_status
-cd - >/dev/null
+cd - >/dev/null || return
 
 if [ "UTF-8" = "$( locale charmap )" ]
 then

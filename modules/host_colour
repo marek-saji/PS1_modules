@@ -5,8 +5,6 @@
 # escape. If not — colour is generated from the host name (omitting
 # red as it is reserved for critical servers).
 
-ROOT_COLOUR_NO=${1:-31}
-
 if [ -x /etc/hostcolour ]
 then
     PS1_host_colour="$( /etc/hostcolour )"
@@ -14,7 +12,7 @@ fi
 
 if [ -z "${PS1_host_colour}" ]
 then
-    MD5CMD="$( which md5sum || which md5 )"
+    MD5CMD="$( command -v md5sum || command -v md5 )"
     if [ -n "${MD5CMD}" ]
     then
         HOSTNAME_HASH=$( hostname | "${MD5CMD}" )

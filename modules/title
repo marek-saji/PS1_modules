@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
 # Load modules
 . ./breadcrumbs
@@ -14,26 +15,27 @@
 # - $HOSTNAME
 PS1_title ()
 {
+    # shellcheck disable=SC2016
     if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ] && [ "$BASH_COMMAND" != 'kill -STOP $$' ]
     then
         echo "$BASH_COMMAND"
 
         if [ -n "$SUDO_USER" ]
         then
-            echo " as $USER"
+            printf " as %s" "$USER"
         fi
         if [ -n "$SSH_CONNECTION" ]
         then
-            printf "@$HOSTNAME"
+            printf "@%s" "$HOSTNAME"
         fi
     else
         if [ -n "$SUDO_USER" ]
         then
-            printf "$USER"
+            printf "%s" "$USER"
         fi
         if [ -n "$SSH_CONNECTION" ]
         then
-            printf "@$HOSTNAME"
+            printf "@%s" "$HOSTNAME"
         fi
 
         printf :

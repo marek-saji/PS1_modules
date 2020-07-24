@@ -9,12 +9,13 @@
 # - $2 Suffix
 PS1_cwd_check ()
 {
-    REAL_CWD="$( { cd .; pwd; } 2>/dev/null ; )"
+    REAL_CWD="$( { cd . || return ; pwd; } 2>/dev/null ; )"
     if [ "${REAL_CWD}" != "${PWD}" ]
     then
         if [[ "${REAL_CWD}" =~ /\.$ ]]
         then
-            printf " $1CWD has been deleted$2" "${REAL_CWD}"
+            # shellcheck disable=SC2059
+            printf " $1CWD has been deleted$2"
         else
             printf " $1CWD=%s$2" "${REAL_CWD}"
         fi

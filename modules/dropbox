@@ -7,7 +7,7 @@
 # - $1: Will be printed if dropbox is not idle
 # - $2: Will be printed if dropbox is idle
 PS1_dropbox () {
-    if ( which dropbox &>/dev/null )
+    if ( command -v dropbox &>/dev/null )
     then
         status="$( command dropbox filestatus . )"
         if [ ".: syncing" = "$status" ]

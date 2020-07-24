@@ -11,8 +11,10 @@
 PS1_vm () {
     if [ -n "${PS1_vm__is}" ]
     then
+        # shellcheck disable=SC2059
         printf "$1"
     else
+        # shellcheck disable=SC2059
         printf "$2"
     fi
 }

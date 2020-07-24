@@ -1,6 +1,7 @@
 #!/bin/bash
+# shellcheck disable=SC2059,SC1091
 
-. ./git_stash
+. ./git_stash || return
 
 ##
 # Print git information
@@ -15,7 +16,6 @@
 # - $5: Appended, if any output
 PS1_git_counters () {
     STASH="$( PS1_git_stash__get )"
-    INFO="$( command git branch -v | grep '^* ' | cut -b3- )"
     test "0" = "$STASH" && STASH=
     test -n "$STASH" && printf "$1$STASH"
 
@@ -23,14 +23,15 @@ PS1_git_counters () {
     AHEAD_COLOUR="$3"
     SUFFIX="$4"
 
-    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD 2>/dev/null) 2>/dev/null )
+    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' "$( command git symbolic-ref -q HEAD 2>/dev/null )" 2>/dev/null )
     if [ -z "$TRACKING_BRANCH" ]
     then
         return
     fi
 
 
-    set -- $(command git rev-list --left-right --count ${TRACKING_BRANCH}...HEAD)
+    # shellcheck disable=SC2046
+    set -- $( command git rev-list --left-right --count "${TRACKING_BRANCH}...HEAD" )
     BEHIND="$1"
     AHEAD="$2"
     test 0 -eq "$BEHIND" && BEHIND=

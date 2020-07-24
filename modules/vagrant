@@ -8,15 +8,18 @@
 # - $2: Will be printed if there are no running boxes
 # - $3: Will be printed if there are not boxes at all
 PS1_vagrant () {
-    if ( which vagrant &>/dev/null )
+    if command -v vagrant &>/dev/null
     then
         if ! STATUS=$( command vagrant status 2>/dev/null )
         then
+            # shellcheck disable=SC2059
             printf "$3"
         elif [[ "${STATUS}" =~ "running" ]]
         then
+            # shellcheck disable=SC2059
             printf "$1"
         else
+            # shellcheck disable=SC2059
             printf "$2"
         fi
     fi

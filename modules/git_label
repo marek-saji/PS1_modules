@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091,SC2059,SC2154
 
 . ./git_rebase
 . ./git_merge
@@ -49,7 +50,6 @@ PS1_git_label () {
         fi
 
         GIT_DIR="$( command git rev-parse --git-dir )"
-        REBASE_LABEL=
         if [ -f "${GIT_DIR}/rebase-merge/interactive" ]
         then
             LABEL="$( command git rev-parse --abbrev-ref "$( cat "${GIT_DIR}/rebase-merge/head-name" )" )"
@@ -61,8 +61,8 @@ PS1_git_label () {
             fi
             if [ -e "${GIT_DIR}/rebase-merge/done" ] && [ -e "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" ]
             then
-                DONE=$(( $( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | wc -l ) ))
-                ALL=$(( $( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" | wc -l ) ))
+                DONE=$(( $( grep -cEv '^ *($|#)' "${GIT_DIR}/rebase-merge/done" ) ))
+                ALL=$(( $( grep -cEv '^ *($|#)' "${GIT_DIR}/rebase-merge/git-rebase-todo.backup" ) ))
                 CURRENT_REF="$( grep -Ev '^ *($|#)' "${GIT_DIR}/rebase-merge/done" | tail -n1 | cut -d' ' -f2 )"
                 CURRENT_REF="$( command git rev-parse --short "${CURRENT_REF}" )"
                 if [ -n "${DONE}" ] && [ -n "${ALL}" ] && [ -n "${CURRENT_REF}" ]
@@ -130,8 +130,8 @@ PS1_git_branch__get_branch () {
 ##
 # Get upstream branch of an active branch
 PS1_git_branch__get_upstream () {
-    UPSTREAM_BRANCH="$( command git rev-parse --revs-only --abbrev-ref $( PS1_git_branch__get_branch )@{u} 2>/dev/null )"
-    echo ${UPSTREAM_BRANCH:-(gone)}
+    UPSTREAM_BRANCH="$( command git rev-parse --revs-only --abbrev-ref "$( PS1_git_branch__get_branch )@{u}" 2>/dev/null )"
+    echo "${UPSTREAM_BRANCH:-(gone)}"
 }
 
 ##
@@ -143,5 +143,5 @@ PS1_git_branch__get_tags () {
 ##
 # Get active git branch human readable name.
 PS1_git_branch__get_label () {
-    command git branch 2>/dev/null | GREP_OPTIONS= grep '^\*' | cut -b3-
+    command git branch 2>/dev/null | GREP_OPTIONS='' grep '^\*' | cut -b3-
 }

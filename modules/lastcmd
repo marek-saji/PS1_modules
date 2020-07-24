@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
 # Load modules
 . ./lastcmd_time
@@ -19,11 +20,11 @@ PS1_lastcmd () {
     then
         if [ "UTF-8" = "$( locale charmap )" ]
         then
-            printf "$1⭦"
+            printf "$1%s" "⭦"
         else
-            printf "$1^"
+            printf "$1%s" "^"
         fi
     fi
-    test -n "$TIME"   && printf " $TIME"
-    test -n "$STATUS" && printf " $2$STATUS"
+    test -n "$TIME"   && printf " %s" "$TIME"
+    test -n "$STATUS" && printf " $2%s" "$STATUS"
 }

@@ -1,5 +1,6 @@
 #!/bin/bash
 # (c) Marek `saji' Augustynowicz
+# shellcheck disable=SC1091,SC2034,SC2154,SC2025
 
 ##
 # {PATH_BREADCRUMBS}{DIR_STACK_SIZE} {GIT_TAG}{GIT_STASH_COUNT} {VIM_SUBSHELL} {USER_AND_HOST} {TIME} {LASTCMD_INFO}
@@ -17,7 +18,7 @@ PS1_debug_trap=
 
 # Have to change directory to `modules/`, as modules depend on
 # that when loading other modules.
-cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
+cd "$( dirname "${BASH_ARGV[0]}" )/../modules" || return
 . ./breadcrumbs
 . ./cwd_check
 . ./dirstack_size
@@ -33,7 +34,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules"
 . ./user_and_host
 # updates screen(1)'s and terminal's titles
 . ./titles
-cd - >/dev/null
+cd - >/dev/null || return
 
 if [ "$( tput colors )" -ge 256 ]
 then

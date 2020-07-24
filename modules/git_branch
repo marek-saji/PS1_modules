@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091,SC2059
 
 . ./git_rebase
 . ./git_merge
@@ -44,7 +45,7 @@ PS1_git_branch__get_branch () {
 ##
 # Get upstream branch of an active branch
 PS1_git_branch__get_upstream () {
-    command git rev-parse --abbrev-ref $( PS1_git_branch__get_branch )@{u} 2>/dev/null
+    command git rev-parse --abbrev-ref "$( PS1_git_branch__get_branch )@{u}" 2>/dev/null
 }
 
 ##
@@ -56,5 +57,5 @@ PS1_git_branch__get_tags () {
 ##
 # Get active git branch human readable name.
 PS1_git_branch__get_label () {
-    command git branch 2>/dev/null | GREP_OPTIONS= grep '^\*' | cut -b3-
+    command git branch 2>/dev/null | GREP_OPTIONS='' grep '^\*' | cut -b3-
 }

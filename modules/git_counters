@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091,SC2059,SC2154
 
 . ./git_stash
 
@@ -26,18 +27,19 @@ PS1_git_counters () {
     AHEAD_COLOUR="$3"
     SUFFIX="$4"
 
-    TRACKING_BRANCH=$(command git for-each-ref --format='%(upstream:short)' $(command git symbolic-ref -q HEAD 2>/dev/null) 2>/dev/null )
+    TRACKING_BRANCH=$( command git for-each-ref --format='%(upstream:short)' "$( command git symbolic-ref -q HEAD 2>/dev/null )" 2>/dev/null )
     if [ -z "$TRACKING_BRANCH" ]
     then
         return
     fi
-    if ! ( command git branch --remote --no-color | grep -q "^..${TRACKING_BRANCH}$" )
+    if ! command git branch --remote --no-color | grep -q "^..${TRACKING_BRANCH}$"
     then
         return
     fi
 
 
-    set -- $(command git rev-list --left-right --count ${TRACKING_BRANCH}...HEAD)
+    # shellcheck disable=SC2046
+    set -- $( command git rev-list --left-right --count "${TRACKING_BRANCH}...HEAD" )
     BEHIND="$1"
     AHEAD="$2"
     test 0 -eq "$BEHIND" && BEHIND=

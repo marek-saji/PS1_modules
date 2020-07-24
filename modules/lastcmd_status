@@ -12,9 +12,9 @@ PS1_lastcmd_status () {
     then
         if [ "UTF-8" = "$( locale charmap )" ]
         then
-            printf "$1↖ $STATUS"
+            printf "$1%s" "↖ $STATUS"
         else
-            printf "$1returned $STATUS"
+            printf "$1returned %s" "$STATUS"
         fi
     fi
 }
@@ -28,9 +28,9 @@ PS1_lastcmd_status__get () {
     if [ -z "$PS1_lastcmd_status__status" ]
     then
         printf "\nDid you register debug trap in your PS1 preset?\ntrap \$PS1_debug_trap DEBUG\n."
-    elif [ 0 -ne $PS1_lastcmd_status__status ]
+    elif [ 0 -ne "$PS1_lastcmd_status__status" ]
     then
-        printf "$PS1_lastcmd_status__status"
+        printf "%s" "$PS1_lastcmd_status__status"
     fi
 }
 

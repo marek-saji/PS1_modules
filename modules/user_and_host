@@ -1,5 +1,6 @@
 #!/bin/bash
 # User name and host printed in their specific colours
+# shellcheck disable=SC1091,SC2154
 
 # Load modules
 . ./user_colour
