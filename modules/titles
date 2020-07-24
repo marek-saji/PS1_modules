@@ -19,7 +19,7 @@ PS1_titles () {
             echo -ne "\033]0;${TITLE}\007"
             ;;
 
-        screen*)
+        screen*|tmux*)
             echo -ne "\ek${TITLE}\e\\"
 
             SCREEN_NAME="$( echo $STY | cut -d. -f2- )"
