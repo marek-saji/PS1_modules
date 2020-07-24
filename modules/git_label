@@ -21,6 +21,11 @@ fi
 #       of remote branch's name
 # - $5: Will be prepended to tag names, if any
 PS1_git_label () {
+    if [ -n "$PS1_git_disable" ]
+    then
+        :
+    fi
+
     LABEL="$( PS1_git_branch__get_label )"
 
     if [ -n "$LABEL" ]

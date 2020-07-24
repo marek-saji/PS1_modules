@@ -13,6 +13,11 @@
 # - $3: Will be prepended to "ahead" counter, if any
 # - $4: Will be appended, if any output
 PS1_git_counters () {
+    if [ -n "$PS1_git_disable" ]
+    then
+        :
+    fi
+
     STASH="$( PS1_git_stash__get )"
     test "0" = "$STASH" && STASH=
     test -n "$STASH" && printf "$1$STASH"

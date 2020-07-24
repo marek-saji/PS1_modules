@@ -8,6 +8,11 @@
 # - $2: Will be prepended to working copy status, if any
 # - $3: Will be appended, if any output
 PS1_git_status () {
+    if [ -n "$PS1_git_disable" ]
+    then
+        :
+    fi
+
     STATUS="$( command git status --porcelain 2>/dev/null | cut -b1-2 )"
     STAGING_STATUS="$(     echo "${STATUS}" | cut -b1 | grep -v '^[[:space:]?]*$' | sort | uniq -c | xargs printf "%s%s" )"
     WORKINGCOPY_STATUS="$( echo "${STATUS}" | cut -b2 | grep -v '^[[:space:]]*$'  | sort | uniq -c | xargs printf "%s%s" )"
