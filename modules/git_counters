@@ -15,7 +15,7 @@
 PS1_git_counters () {
     if [ -n "$PS1_git_disable" ]
     then
-        :
+        return
     fi
 
     STASH="$( PS1_git_stash__get )"

@@ -23,7 +23,7 @@ fi
 PS1_git_label () {
     if [ -n "$PS1_git_disable" ]
     then
-        :
+        return
     fi
 
     LABEL="$( PS1_git_branch__get_label )"

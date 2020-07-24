@@ -10,7 +10,7 @@
 PS1_git_status () {
     if [ -n "$PS1_git_disable" ]
     then
-        :
+        return
     fi
 
     STATUS="$( command git status --porcelain 2>/dev/null | cut -b1-2 )"
