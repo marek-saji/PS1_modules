@@ -31,6 +31,7 @@ cd "$( dirname "${BASH_ARGV[0]}" )/../modules" || return
 . ./subshell_vim
 . ./rec
 . ./ssh
+. ./mail
 . ./user_and_host
 # updates screen(1)'s and terminal's titles
 . ./titles
@@ -65,6 +66,7 @@ then
     PS1_UTF_SUPPORT=1
     PS1_ICON_REC="● "
     PS1_ICON_SSH="🌐"
+    PS1_ICON_MAIL="🖂 "
     PS1_ICON_DROPBOX_WORKING="⟳ "
     PS1_ICON_GIT_STASHED="+"
     PS1_ICON_GIT_BEHIND="⊝"
@@ -75,6 +77,7 @@ else
     PS1_UTF_SUPPORT=
     PS1_ICON_REC="[rec]"
     PS1_ICON_SSH="(ssh)"
+    PS1_ICON_MAIL="(mail)"
     PS1_ICON_DROPBOX_WORKING="*"
     PS1_ICON_GIT_STASHED=+
     PS1_ICON_GIT_BEHIND=-
@@ -89,6 +92,10 @@ export PS1="${PS1_RESET_STATUS_BG}${PS1_user_and_host}${PS1_RESET_STATUS_BG}"'$(
     # indicator whether we are being connected via ssh
     PS1_ssh " \e[1;32m${PS1_ICON_SSH}"
     printf "${PS1_RESET_STATUS_BG}"
+
+    # indicator whether there is unread mail
+    #          bold white
+    PS1_mail " \e[1;37m${PS1_ICON_MAIL}${PS1_RESET_STATUS_BG}"
 ) \e[37m\A $(
     # indicator whether we are being recorded
     #       bold red

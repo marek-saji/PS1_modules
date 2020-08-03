@@ -1,0 +1,19 @@
+#!/bin/bash
+
+##
+# Print info if has unread mail
+#
+# Params:
+# - $1: Will be displayed if yes
+# - $2: Will be displayed if no
+PS1_mail () {
+    # Using `mail -e` might be better, but -e is not supported everywhere
+    if [ -s "/var/spool/mail/$( whoami )" ]
+    then
+        # shellcheck disable=SC2059
+        printf "$1"
+    else
+        # shellcheck disable=SC2059
+        printf "$2"
+    fi
+}
