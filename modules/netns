@@ -7,6 +7,11 @@
 # - $1: Will be displayed if yes (%s = namespace name)
 # - $2: Will be displayed if no
 PS1_netns () {
+    if ! command -v ip
+    then
+        return
+    fi
+
     local name
     name="$( ip netns identify $$ )"
     if [ -n "$name" ]
