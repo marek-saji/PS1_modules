@@ -16,7 +16,11 @@
 PS1_title ()
 {
     # shellcheck disable=SC2016
-    if ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] && [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ] && [ "$BASH_COMMAND" != 'kill -STOP $$' ]
+    if
+        ! [[ "$BASH_COMMAND" =~ ^PS1_ ]] &&
+        [ "$BASH_COMMAND" != 'echo "$BASH_COMMAND"' ] &&
+        [ "$BASH_COMMAND" != 'kill -STOP $$' ] &&
+        [ "$BASH_COMMAND" != '[ "$SHLVL" = 1 ]' ]
     then
         echo "$BASH_COMMAND"
 
