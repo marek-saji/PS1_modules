@@ -7,7 +7,7 @@
 # - $1: Will be displayed if yes (%s = namespace name)
 # - $2: Will be displayed if no
 PS1_netns () {
-    if ! command -v ip
+    if ! command -v ip >/dev/null 2>&1
     then
         return
     fi
